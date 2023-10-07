@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-error{
+    color: gray !important;
+}
+
+.MuiOutlinedInput-notchedOutline{
+    border-color: rgb(200, 199, 199) !important;
+}
+
+.select__input{
+    padding: 0.5rem !important;
+}

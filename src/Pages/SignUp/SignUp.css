@@ -1,0 +1,6 @@
+.right-side {
+  background-image: linear-gradient(rgba(52, 97, 210, 0.4), rgba(52, 97, 210, 0.4)), url(../../assets/flights.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
