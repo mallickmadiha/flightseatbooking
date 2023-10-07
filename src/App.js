@@ -4,6 +4,7 @@ import SignIn from "./Pages/SignIn/SignIn";
 import Home from "./Pages/Home/Home";
 import AdminHome from "./Pages/admin/Home/Home";
 import AdminSignIn from "./Pages/admin/Signin/Signin";
+import FlightBook from "./Pages/FlightBook/FlightBook";
 
 function App() {
   const storedData = localStorage.getItem("users");
@@ -14,6 +15,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/flighbook" element={<FlightBook />} />
           <Route
             path="/signup"
             element={userData?.loggedIn ? <Home /> : <SignUp />}

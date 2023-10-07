@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import Swal from "sweetalert2";
-import "./SignIn.css";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../redux/features/userSlice";
+import { loginUser } from "../../redux/reducers/userSlice";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -37,7 +36,7 @@ const SignIn = () => {
     const updatedUserData = { ...user, islogged: true };
     localStorage.setItem("user", JSON.stringify(updatedUserData));
 
-    dispatch(loginUser(user.id))
+    dispatch(loginUser(user.id));
 
     if (email === user?.email && password === user?.password) {
       Swal.fire({
@@ -96,9 +95,7 @@ const SignIn = () => {
         </div>
         <div className="md:rounded-l-2xl rounded-b-2xl bg-slate-100 shadow-2xl">
           <div className="flex flex-col justify-center items-center h-full">
-            <h1 className="text-center  font-bold text-3xl mt-6">
-              Login
-            </h1>
+            <h1 className="text-center  font-bold text-3xl mt-6">Login</h1>
             <form className="mt-4 md:p-6 p-2 w-3/4" method="POST">
               <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                 <div className="col-span-1">

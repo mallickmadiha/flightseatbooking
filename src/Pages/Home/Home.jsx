@@ -1,42 +1,203 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch} from "react-redux";
-import { logoutUser } from "../../redux/features/userSlice";
-
+import { useSelector } from "react-redux";
+import flyingplanenobg from "../../assets/flyingplanenobg.png";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import Select from "react-select";
+import Swal from "sweetalert2";
+import airports from "../../api/airports.json";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import FlightCard from "../../Components/FlightCard/FlightCard";
+import Navbar from "../../Components/Navbar/Navbar";
 
 const Home = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const users = useSelector(state => state.users)
+
+  const [flights, setFlights] = useLocalStorage("flights", []);
+  const [fliteredFlights, setFliteredFlights] = useState([]);
+  const storedFlights = useSelector((state) => state.flights);
+
+  const [selectedTakeoffTime, setSelectedTakeoffTime] = useState("");
+  const [locationFrom, setLocationFrom] = useState({
+    code: "CCU",
+    lat: "22.6572",
+    lon: "88.4506",
+    name: "Netaji Subhash Chandra Bose International Airport",
+    city: "Kolkata",
+    state: "West Bengal",
+    country: "India",
+    woeid: "12513561",
+    tz: "Asia/Kolkata",
+    phone: "",
+    type: "Airports",
+    email: "",
+    url: "",
+    runway_length: "11900",
+    elev: "19",
+    icao: "VECC",
+    direct_flights: "42",
+    carriers: "24",
+  });
+
+  const [locationTo, setLocationTo] = useState({
+    code: "DEL",
+    lat: "28.5603",
+    lon: "77.1027",
+    name: "Indira Gandhi International Airport",
+    city: "New Delhi",
+    state: "Madhya Pradesh",
+    country: "India",
+    woeid: "12513599",
+    tz: "Asia/Kolkata",
+    phone: "",
+    type: "Airports",
+    email: "",
+    url: "",
+    runway_length: "12500",
+    elev: "776",
+    icao: "VIDP",
+    direct_flights: "95",
+    carriers: "70",
+  });
+
+  const customStyles = {
+    option: (provided) => ({
+      ...provided,
+      fontSize: "14px",
+    }),
+  };
+
+  const formatOptionLabel = ({ city, country, name }) => (
+    <div>
+      <div>{`${city}, ${country}`}</div>
+      <div style={{ fontSize: "12px", color: "gray" }}>{name}</div>
+    </div>
+  );
+
+  // const users = useSelector(state => state.users)
   const storedData = localStorage.getItem("user");
   const userData = JSON.parse(storedData) || {};
 
-  useEffect(()=>{
-    console.log(users)
-    if(userData.islogged === false){
-      navigate('/signin')
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[userData])
+  console.log("User", storedData);
 
-  const handleLogout = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    dispatch(logoutUser(user.id))
-    const updatedUserData = { ...user, islogged: false };
-    localStorage.setItem("user", JSON.stringify(updatedUserData));
-    navigate("/signin");
+  useEffect(() => {
+    if (userData.islogged === false || !storedData) {
+      navigate("/signin");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData, storedData]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (selectedTakeoffTime && locationTo && locationFrom) {
+      setFliteredFlights(
+        flights.filter(
+          (flight) =>
+            flight.locationFrom.code === locationFrom.code &&
+            flight.locationTo.code === locationTo.code
+          // flight.selectedTakeoffTime === selectedTakeoffTime
+        )
+      );
+    } else {
+      Swal.fire({
+        title: "Info!",
+        text: "Please fill up all required fields",
+        icon: "info",
+        confirmButtonText: "Try again",
+      });
+    }
   };
 
   return (
-    <div className="container mx-auto mt-10">
-      <h1 className="text-3xl my-5 text-center">Hii {userData?.name}</h1>
-      <button
-        className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-        onClick={handleLogout}
-      >
-        Logout
-      </button>
-    </div>
+    <>
+      <Navbar name={userData?.name}/>
+      <div className="container mx-auto flex justify-center flex-col">
+        <h1 className="text-3xl mt-5 text-center">Search for Your Flight</h1>
+        <img
+          src={flyingplanenobg}
+          className="w-[600px] h-[580px] mx-auto relative"
+          alt="flyingplanenobg"
+        />
+        <div className="container absolute mt-20 lg:mt-40">
+          <form className="flex items-center flex-wrap gap-6 py-5 justify-center bg-white lg:w-9/12 mx-auto shadow-xl">
+            <div className="mb-6">
+              <label
+                htmlFor="airport"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Location
+              </label>
+              <Select
+                className="basic-single w-[270px]"
+                classNamePrefix="select"
+                options={airports}
+                value={locationFrom}
+                onChange={setLocationFrom}
+                getOptionLabel={formatOptionLabel}
+                getOptionValue={(option) => option.city}
+                styles={customStyles}
+                name="airport"
+              />
+            </div>
+            <div className="mb-6">
+              <label
+                htmlFor="airport"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Destination
+              </label>
+              <Select
+                className="basic-single w-[270px]"
+                classNamePrefix="select"
+                options={airports}
+                value={locationTo}
+                onChange={setLocationTo}
+                getOptionLabel={formatOptionLabel}
+                getOptionValue={(option) => option.city}
+                styles={customStyles}
+                name="airport"
+              />
+            </div>
+            <div className="mb-6">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="time"
+              >
+                Departure Date
+              </label>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DateTimePicker"]}>
+                  <DateTimePicker
+                    value={selectedTakeoffTime}
+                    onChange={(newValue) => setSelectedTakeoffTime(newValue)}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+            </div>
+            <div className="mb-6">
+              <button
+                onClick={(e) => handleSubmit(e)}
+                className="py-3 px-4 mt-8 bg-greyblue rounded-sm
+              font-medium text-white uppercase
+              focus:outline-none hover:bg-greyblue hover:shadow-none"
+                type="submit"
+              >
+                Search Flights
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div>
+        {fliteredFlights &&
+          fliteredFlights.map((flight, index) => {
+            return <FlightCard key={flight.id} flight={flight} />;
+          })}
+      </div>
+    </>
   );
 };
 

@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import Swal from "sweetalert2";
-import "./SignUp.css";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import { addUsers } from "../../redux/features/userSlice";
+import { addUsers } from "../../redux/reducers/userSlice";
 import { useDispatch } from "react-redux";
 
 const SignUp = () => {
@@ -17,6 +16,19 @@ const SignUp = () => {
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [visibleconfirmPassword, setVisibleconfirmPassword] = useState(false);
   const navigate = useNavigate();
+
+
+  const storedData = localStorage.getItem("user");
+  const userData = JSON.parse(storedData) || {};
+
+  console.log("User", storedData);
+
+  useEffect(()=>{
+    if(userData.islogged === true || storedData){
+      navigate('/')
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[userData, storedData])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

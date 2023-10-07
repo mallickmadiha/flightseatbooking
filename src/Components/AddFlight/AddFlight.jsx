@@ -1,18 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Select from "react-select";
 import airports from "../../api/airports.json";
+import Swal from "sweetalert2";
+import Loader from "../../Components/Loader/Loader";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import { nanoid } from "nanoid";
+import { useDispatch } from "react-redux";
+import { addFlight } from "../../redux/reducers/flightSlice";
 
-const AddFlight = () => {
-  const [selectedDateTime, setSelectedDateTime] = useState("");
+const AddFlight = ({ setShowadd }) => {
+  
+  const [flights, setFlights] = useLocalStorage("flights", []);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  
+  const [name, setName] = useState("");
+  const [selectedTakeoffTime, setSelectedTakeoffTime] = useState("");
+  const [selectedLandingTime, setSelectedLandingTime] = useState("");
+  const [price, setPrice] = useState("");
   const [locationFrom, setLocationFrom] = useState({
     code: "CCU",
     lat: "22.6572",
     lon: "88.4506",
-    name: "Netaji Subhash Chandra Bose International Airpor",
+    name: "Netaji Subhash Chandra Bose International Airport",
     city: "Kolkata",
     state: "West Bengal",
     country: "India",
@@ -28,7 +42,7 @@ const AddFlight = () => {
     direct_flights: "42",
     carriers: "24",
   });
-
+  
   const [locationTo, setLocationTo] = useState({
     code: "DEL",
     lat: "28.5603",
@@ -50,20 +64,97 @@ const AddFlight = () => {
     carriers: "70",
   });
 
-  const [flightType, setFlightType] = useState("oneWay");
+  const customStyles = {
+    option: (provided) => ({
+      ...provided,
+      fontSize: "14px",
+    }),
+  };
 
-  const handleFlightTypeChange = (event) => {
-    setFlightType(event.target.value);
+  const formatOptionLabel = ({ city, country, name }) => (
+    <div>
+      <div>{`${city}, ${country}`}</div>
+      <div style={{ fontSize: "12px", color: "gray" }}>{name}</div>
+    </div>
+  );
+  
+  useEffect(()=>{
+    setFlights(flights);
+  },[flights, setShowadd, setFlights])
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (
+      !name ||
+      !selectedLandingTime ||
+      !selectedLandingTime ||
+      !locationFrom ||
+      !locationTo ||
+      !price
+    ) {
+      Swal.fire({
+        title: "Info!",
+        text: "Please fill up all required fields",
+        icon: "info",
+        confirmButtonText: "Try again",
+      }).then(() => setLoading(false));
+      return;
+    } else {
+      dispatch(
+        addFlight({
+          name: name,
+          selectedLandingTime: selectedLandingTime.toString(),
+          selectedTakeoffTime: selectedTakeoffTime.toString(),
+          locationFrom: locationFrom,
+          locationTo: locationTo,
+          price: price,
+        })
+      );
+      setFlights([
+        ...flights,
+        {
+          id: nanoid(),
+          name: name,
+          selectedLandingTime: selectedLandingTime.toString(),
+          selectedTakeoffTime: selectedTakeoffTime.toString(),
+          locationFrom: locationFrom,
+          locationTo: locationTo,
+          price: price,
+        },
+      ]);
+      Swal.fire({
+        title: "Successful",
+        text: "Flight Details Added Successfully",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() =>
+        setTimeout(() => {
+          setShowadd(false);
+        }, 500)
+      );
+    }
   };
 
   return (
-    <div className="container mx-auto mt-10 h-screen">
-      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <h2 className="text-2xl font-bold mb-4">Flight Details</h2>
+    <div className="flight-container">
+      <Loader active={loading} />
+      <div className="px-10 pt-5 md:w-2/4 mx-auto bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10">
+        <div className="flex justify-evenly">
+          <h2 className="text-2xl font-bold text-white mt-2 text-center">
+            Add Flight Details
+            <i className="fa fa-solid fa-plane-departure mx-3 text-blue-500"></i>
+          </h2>
+          <button
+            className="bg-greyblue py-2.5 px-4 text-white"
+            onClick={() => setShowadd(false)}
+          >
+            All Flights
+          </button>
+        </div>
         <form>
-          <div className="mb-4">
+          <div className="mb-6">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-white text-sm font-bold mb-2"
               htmlFor="name"
             >
               Flight Name
@@ -73,11 +164,13 @@ const AddFlight = () => {
               id="name"
               type="text"
               placeholder="Flight Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-6">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-white text-sm font-bold mb-2"
               htmlFor="time"
             >
               Flight Takeoff Time
@@ -85,21 +178,15 @@ const AddFlight = () => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DateTimePicker"]}>
                 <DateTimePicker
-                  label="Select Date Time"
-                  value={selectedDateTime}
-                  onChange={(newValue) => setSelectedDateTime(newValue)}
-                  error={false}
+                  value={selectedTakeoffTime}
+                  onChange={(newValue) => setSelectedTakeoffTime(newValue)}
                 />
               </DemoContainer>
             </LocalizationProvider>
-
-            {/* {selectedDateTime && (
-              <p>Selected Date and Time: {selectedDateTime.toString()}</p>
-            )} */}
           </div>
-          <div className="mb-4">
+          <div className="mb-6">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-white text-sm font-bold mb-2"
               htmlFor="time"
             >
               Flight Landing Time
@@ -107,36 +194,16 @@ const AddFlight = () => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DateTimePicker"]}>
                 <DateTimePicker
-                  label="Select Date Time"
-                  value={selectedDateTime}
-                  onChange={(newValue) => setSelectedDateTime(newValue)}
-                  error={false}
+                  value={selectedLandingTime}
+                  onChange={(newValue) => setSelectedLandingTime(newValue)}
                 />
               </DemoContainer>
             </LocalizationProvider>
-
-            {/* {selectedDateTime && (
-              <p>Selected Date and Time: {selectedDateTime.toString()}</p>
-            )} */}
           </div>
-          <div className="mb-4">
+          <div className="mb-6">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="price"
-            >
-              Price
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="price"
-              type="number"
-              placeholder="Price"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="city"
-              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="airport"
+              className="block text-white text-sm font-bold mb-2"
             >
               Location
             </label>
@@ -146,15 +213,16 @@ const AddFlight = () => {
               options={airports}
               value={locationFrom}
               onChange={setLocationFrom}
-              getOptionLabel={(option) => `${option.city}, ${option.country}`}
-              getOptionValue={(option) => option.name}
-              name="color"
+              getOptionLabel={formatOptionLabel}
+              getOptionValue={(option) => option.city}
+              styles={customStyles}
+              name="airport"
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-6">
             <label
-              htmlFor="city"
-              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="airport"
+              className="block text-white text-sm font-bold mb-2"
             >
               Destination
             </label>
@@ -164,49 +232,39 @@ const AddFlight = () => {
               options={airports}
               value={locationTo}
               onChange={setLocationTo}
-              getOptionLabel={(option) => `${option.city}, ${option.country}`}
-              getOptionValue={(option) => option.name}
-              name="color"
+              getOptionLabel={formatOptionLabel}
+              getOptionValue={(option) => option.city}
+              styles={customStyles}
+              name="airport"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Flight Type
+          <div className="mb-6">
+            <label
+              className="block text-white text-sm font-bold mb-2"
+              htmlFor="price"
+            >
+              Price
             </label>
-            <div className="flex items-center space-x-4">
-              <label className="inline-flex items-center">
-                <input
-                  type="radio"
-                  className="form-radio"
-                  name="flightType"
-                  value="oneWay"
-                  checked={flightType === "oneWay"}
-                  onChange={handleFlightTypeChange}
-                />
-                <span className="ml-2">One Way</span>
-              </label>
-              <label className="inline-flex items-center">
-                <input
-                  type="radio"
-                  className="form-radio"
-                  name="flightType"
-                  value="twoWay"
-                  checked={flightType === "twoWay"}
-                  onChange={handleFlightTypeChange}
-                />
-                <span className="ml-2">Two Way</span>
-              </label>
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-700">
+                ₹
+              </span>
+              <input
+                className="pl-8 shadow appearance-none border rounded w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="price"
+                type="text"
+                placeholder="Enter Price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
             </div>
-            </div>
-          <div>
-            {/* <p>Selected Country: {selectedCountry}</p> */}
-            {/* <p>Selected State: {selectedState}</p> */}
           </div>
           <div className="flex items-center justify-center">
             <button
-              className="py-3 px-4 bg-gray-800 rounded-sm
+              onClick={handleSubmit}
+              className="py-3 px-4 mb-6 bg-greyblue rounded-sm
               font-medium text-white uppercase
-              focus:outline-none hover:bg-gray-700 hover:shadow-none"
+              focus:outline-none hover:bg-greyblue hover:shadow-none"
               type="submit"
             >
               Add Flight
