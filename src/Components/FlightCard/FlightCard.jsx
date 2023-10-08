@@ -1,10 +1,13 @@
 import React from "react";
 import airlineblack from "../../assets/airlineblack.png";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { nanoid } from "nanoid";
+import { useDispatch } from "react-redux";
+import { addBooking } from "../../redux/reducers/bookingSlice";
 
 const FlightCard = ({ flight }) => {
-  const navigate = useNavigate()
-  console.log("heyyyyyyyy", flight);
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const landing = new Date(flight.selectedLandingTime);
   const takeoff = new Date(flight.selectedTakeoffTime);
@@ -18,14 +21,27 @@ const FlightCard = ({ flight }) => {
   const timeDifferenceInMilliseconds = landing - takeoff;
 
   const handleticketclick = (e) => {
-    flight && localStorage.setItem('booking', JSON.stringify(flight));
-    navigate('/flighbook')
+    if (flight) {
+      const flightWithExtras = {
+        ...flight,
+        bookingId: nanoid(),
+        meals: [],
+        luggage: [],
+        seats: {
+          booked: [],
+        },
+      };
+
+      localStorage.setItem("booking", JSON.stringify(flightWithExtras));
+      dispatch(addBooking(flightWithExtras));
+    }
+    navigate("/flighbook");
   };
 
   return (
     <div className="flex items-center justify-center py-5">
       <div
-        className="lg:w-[67rem] md:w-8/12 w-full mx-2"
+        className="lg:w-[67rem] md:w-8/12 w-full mx-2 cursor-pointer"
         onClick={(e) => handleticketclick(e)}
       >
         <div className="bg-lightgrey rounded-2xl lg:flex pb-5">

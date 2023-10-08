@@ -12,13 +12,18 @@ import airports from "../../api/airports.json";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import FlightCard from "../../Components/FlightCard/FlightCard";
 import Navbar from "../../Components/Navbar/Navbar";
+import Loader from "../../Components/Loader/Loader";
 
 const Home = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
+  // eslint-disable-next-line no-unused-vars
   const [flights, setFlights] = useLocalStorage("flights", []);
   const [fliteredFlights, setFliteredFlights] = useState([]);
   const storedFlights = useSelector((state) => state.flights);
+
+  console.log(storedFlights);
 
   const [selectedTakeoffTime, setSelectedTakeoffTime] = useState("");
   const [locationFrom, setLocationFrom] = useState({
@@ -93,27 +98,45 @@ const Home = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedTakeoffTime && locationTo && locationFrom) {
-      setFliteredFlights(
-        flights.filter(
+      setLoading(true);
+      const filteredFlights = flights.filter(
+        (flight) =>
+          flight.locationFrom.code === locationFrom.code &&
+          flight.locationTo.code === locationTo.code
+      );
+
+      if (storedFlights.flights) {
+        const storedFilteredFlights = storedFlights.flights.filter(
           (flight) =>
             flight.locationFrom.code === locationFrom.code &&
             flight.locationTo.code === locationTo.code
-          // flight.selectedTakeoffTime === selectedTakeoffTime
-        )
-      );
+        );
+        setFliteredFlights(storedFilteredFlights);
+      } else {
+        setFliteredFlights(filteredFlights);
+      }
+
+      setTimeout(() => {
+        setLoading(false);
+        window.scrollTo({
+          top: window.innerHeight,
+          behavior: 'smooth',
+        });
+      }, 1000);
     } else {
       Swal.fire({
         title: "Info!",
         text: "Please fill up all required fields",
         icon: "info",
         confirmButtonText: "Try again",
-      });
+      }).then(() => setLoading(false));
     }
   };
 
   return (
     <>
-      <Navbar name={userData?.name}/>
+      <Navbar name={userData?.name} />
+      <Loader active={loading} />
       <div className="container mx-auto flex justify-center flex-col">
         <h1 className="text-3xl mt-5 text-center">Search for Your Flight</h1>
         <img
