@@ -28,7 +28,7 @@ const Home = () => {
               </button>
               <i
                 onClick={() => window.location.reload()}
-                class="fa fa-solid fa-rotate-right text-greyblue text-2xl mx-3 cursor-pointer"
+                className="fa fa-solid fa-rotate-right text-greyblue text-2xl mx-3 cursor-pointer"
               ></i>
             </div>
           </div>

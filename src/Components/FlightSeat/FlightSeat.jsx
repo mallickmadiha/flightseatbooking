@@ -11,12 +11,12 @@ const FlightSeat = ({ seatNo, disabledseats, handleSeatSelection }) => {
               id={`${seatNo}A`}
               onChange={() => handleSeatSelection(`${seatNo}A`)}
             />
-            <label for={`${seatNo}A`}>{seatNo}A</label>
+            <label htmlFor={`${seatNo}A`}>{seatNo}A</label>
           </li>
         ) : (
           <li className="seat">
             <input type="checkbox" disabled id={`${seatNo}A`} />
-            <label for={`${seatNo}A`}>Occupied</label>
+            <label htmlFor={`${seatNo}A`}>Occupied</label>
           </li>
         )}
         {!disabledseats.includes(`${seatNo}B`) ? (
@@ -26,12 +26,12 @@ const FlightSeat = ({ seatNo, disabledseats, handleSeatSelection }) => {
               id={`${seatNo}B`}
               onChange={() => handleSeatSelection(`${seatNo}B`)}
             />
-            <label for={`${seatNo}B`}>{seatNo}B</label>
+            <label htmlFor={`${seatNo}B`}>{seatNo}B</label>
           </li>
         ) : (
           <li className="seat">
             <input type="checkbox" disabled id={`${seatNo}B`} />
-            <label for={`${seatNo}B`}>Occupied</label>
+            <label htmlFor={`${seatNo}B`}>Occupied</label>
           </li>
         )}
         {!disabledseats.includes(`${seatNo}C`) ? (
@@ -41,12 +41,12 @@ const FlightSeat = ({ seatNo, disabledseats, handleSeatSelection }) => {
               id={`${seatNo}C`}
               onChange={() => handleSeatSelection(`${seatNo}C`)}
             />
-            <label for={`${seatNo}C`}>{seatNo}C</label>
+            <label htmlFor={`${seatNo}C`}>{seatNo}C</label>
           </li>
         ) : (
           <li className="seat">
             <input type="checkbox" disabled id={`${seatNo}C`} />
-            <label for={`${seatNo}C`}>Occupied</label>
+            <label htmlFor={`${seatNo}C`}>Occupied</label>
           </li>
         )}
         {!disabledseats.includes(`${seatNo}D`) ? (
@@ -56,12 +56,12 @@ const FlightSeat = ({ seatNo, disabledseats, handleSeatSelection }) => {
               id={`${seatNo}D`}
               onChange={() => handleSeatSelection(`${seatNo}D`)}
             />
-            <label for={`${seatNo}D`}>{seatNo}D</label>
+            <label htmlFor={`${seatNo}D`}>{seatNo}D</label>
           </li>
         ) : (
           <li className="seat">
             <input type="checkbox" disabled id={`${seatNo}D`} />
-            <label for={`${seatNo}D`}>Occupied</label>
+            <label htmlFor={`${seatNo}D`}>Occupied</label>
           </li>
         )}
         {!disabledseats.includes(`${seatNo}E`) ? (
@@ -71,12 +71,12 @@ const FlightSeat = ({ seatNo, disabledseats, handleSeatSelection }) => {
               id={`${seatNo}E`}
               onChange={() => handleSeatSelection(`${seatNo}E`)}
             />
-            <label for={`${seatNo}E`}>{seatNo}E</label>
+            <label htmlFor={`${seatNo}E`}>{seatNo}E</label>
           </li>
         ) : (
           <li className="seat">
             <input type="checkbox" disabled id={`${seatNo}E`} />
-            <label for={`${seatNo}E`}>Occupied</label>
+            <label htmlFor={`${seatNo}E`}>Occupied</label>
           </li>
         )}
         {!disabledseats.includes(`${seatNo}F`) ? (
@@ -86,12 +86,12 @@ const FlightSeat = ({ seatNo, disabledseats, handleSeatSelection }) => {
               id={`${seatNo}F`}
               onChange={() => handleSeatSelection(`${seatNo}F`)}
             />
-            <label for={`${seatNo}F`}>{seatNo}F</label>
+            <label htmlFor={`${seatNo}F`}>{seatNo}F</label>
           </li>
         ) : (
           <li className="seat">
             <input type="checkbox" disabled id={`${seatNo}F`} />
-            <label for={`${seatNo}F`}>Occupied</label>
+            <label htmlFor={`${seatNo}F`}>Occupied</label>
           </li>
         )}
       </ol>
