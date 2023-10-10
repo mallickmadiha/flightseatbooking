@@ -3,8 +3,9 @@ import React from "react";
 const Luggage = () => {
   return (
     <div>
-      Luggage{" "}
+      Luggage
       <div className="flex items-center justify-around">
+        
         <button
           //   onClick={handleSubmit}
           className="py-2 px-4 mb-6 bg-greyblue rounded-sm
