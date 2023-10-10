@@ -62,10 +62,31 @@ export const bookingSLice = createSlice({
         state.bookings = updatedBookings;
       }
     },
+    addLuggageToBooking: (state, action) => {
+      const { bookingId, luggage } = action.payload;
+
+      const bookingIndex = state.bookings.findIndex(
+        (booking) => booking.bookingId === bookingId
+      );
+
+      if (bookingIndex !== -1) {
+        const updatedBooking = {
+          ...state.bookings[bookingIndex],
+          luggage: luggage,
+        };
+        const updatedBookings = [
+          ...state.bookings.slice(0, bookingIndex),
+          updatedBooking,
+          ...state.bookings.slice(bookingIndex + 1),
+        ];
+
+        state.bookings = updatedBookings;
+      }
+    },
   },
 });
 
-export const { addBooking, updateBooking, addSeatsToBooking , addMealsToBooking} =
+export const { addBooking, updateBooking, addSeatsToBooking , addMealsToBooking, addLuggageToBooking} =
   bookingSLice.actions;
 
 export default bookingSLice.reducer;

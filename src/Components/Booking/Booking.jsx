@@ -4,6 +4,7 @@ import { addSeatsToBooking } from "../../redux/reducers/bookingSlice";
 import FlightSeat from "../FlightSeat/FlightSeat";
 import Swal from "sweetalert2";
 import Meal from "../Meal/Meal";
+import Luggage from "../Luggage/Luggage";
 
 const Booking = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -11,10 +12,12 @@ const Booking = () => {
   const [showSeat, setShowSeat] = useState(true);
   const [showLuggage, setShowLuggage] = useState(false);
 
-  const bookings = useSelector((state) => state.bookings);
-  const [disableBookings, setDisabledBookings] = useState([bookings.seats?.booked]);
   const dispatch = useDispatch();
   const storedBooking = JSON.parse(localStorage.getItem("booking"));
+
+  const [disableBookings, setDisabledBookings] = useState(
+    storedBooking.seats?.booked || []
+  );
 
   const handleSeatSelection = (seatId) => {
     if (selectedSeats.includes(seatId)) {
@@ -22,7 +25,6 @@ const Booking = () => {
     } else {
       setSelectedSeats([...selectedSeats, seatId]);
     }
-    // console.log("statte", bookings)
   };
 
   const handleSubmit = () => {
@@ -41,14 +43,12 @@ const Booking = () => {
       confirmButtonText: "OK",
     }).then(() => {
       setDisabledBookings([...disableBookings, ...selectedSeats]);
-      console.log("disabled bookings", disableBookings);
       storedBooking.seats.booked = selectedSeats;
       localStorage.setItem("booking", JSON.stringify(storedBooking));
     });
   };
 
   const rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  // console.log("Booking", JSON.parse(localStorage.getItem("booking")));
   return (
     <div className="mt-5">
       <h1 className="text-3xl text-center">
@@ -82,7 +82,6 @@ const Booking = () => {
           </ol>
           <div className="screen-side pt-5">
             <div className="screen">Screen</div>
-            {/* <h3 className="select-text">Please select a seat</h3> */}
           </div>
           <div className="flex items-center justify-center gap-10">
             <button
@@ -108,17 +107,15 @@ const Booking = () => {
               <i className="fa fa-solid fa-forward"></i>
             </button>
           </div>
-          <div className="selected-seats">
-            {selectedSeats.length > 0 && (
-              <div>
-                Selected Seats:{" "}
-                {selectedSeats.map((seat) => (
-                  <span key={seat}>{seat} </span>
-                ))}
-              </div>
-            )}
-          </div>
         </div>
+      )}
+      {showLuggage && (
+        <Luggage
+          storedBooking={storedBooking}
+          setShowLuggage={setShowLuggage}
+          setShowMeal={setShowMeal}
+          setShowSeat={setShowSeat}
+        />
       )}
     </div>
   );

@@ -20,7 +20,7 @@ const Navbar = ({ name }) => {
         <div className="relative flex h-16 items-center justify-between">
           <div className="flex flex-1 items-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
-              <i className="fa fa-solid fa-paper-plane text-blue-500 text-2xl"></i>
+              <i class="fa fa-solid fa-plane text-blue-700 text-2xl"></i>
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">

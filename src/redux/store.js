@@ -9,4 +9,5 @@ export const store = configureStore({
     flights: flightReducer,
     bookings: bookingReducer
   },
+  devTools: process.env.NODE_ENV !== "production"
 });

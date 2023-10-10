@@ -13,15 +13,16 @@ import { useDispatch } from "react-redux";
 import { addFlight } from "../../redux/reducers/flightSlice";
 
 const AddFlight = ({ setShowadd }) => {
-  
+
   const [flights, setFlights] = useLocalStorage("flights", []);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  
+
   const [name, setName] = useState("");
   const [selectedTakeoffTime, setSelectedTakeoffTime] = useState("");
   const [selectedLandingTime, setSelectedLandingTime] = useState("");
   const [price, setPrice] = useState("");
+  const [luggageCapacity, setLuggageCapacity] = useState();
   const [locationFrom, setLocationFrom] = useState({
     code: "CCU",
     lat: "22.6572",
@@ -42,7 +43,7 @@ const AddFlight = ({ setShowadd }) => {
     direct_flights: "42",
     carriers: "24",
   });
-  
+
   const [locationTo, setLocationTo] = useState({
     code: "DEL",
     lat: "28.5603",
@@ -77,10 +78,10 @@ const AddFlight = ({ setShowadd }) => {
       <div style={{ fontSize: "12px", color: "gray" }}>{name}</div>
     </div>
   );
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     setFlights(flights);
-  },[flights, setShowadd, setFlights])
+  }, [flights, setShowadd, setFlights])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -108,6 +109,7 @@ const AddFlight = ({ setShowadd }) => {
           locationFrom: locationFrom,
           locationTo: locationTo,
           price: price,
+          luggageCapacity: luggageCapacity
         })
       );
       setFlights([
@@ -120,6 +122,7 @@ const AddFlight = ({ setShowadd }) => {
           locationFrom: locationFrom,
           locationTo: locationTo,
           price: price,
+          luggageCapacity: luggageCapacity
         },
       ]);
       Swal.fire({
@@ -258,6 +261,22 @@ const AddFlight = ({ setShowadd }) => {
                 onChange={(e) => setPrice(e.target.value)}
               />
             </div>
+          </div>
+          <div className="mb-6">
+            <label
+              className="block text-white text-sm font-bold mb-2"
+              htmlFor="luggage"
+            >
+              Luggage Capacity (kg)
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="luggage"
+              type="number"
+              placeholder="Luggage Capacity"
+              value={luggageCapacity}
+              onChange={(e) => setLuggageCapacity(e.target.value)}
+            />
           </div>
           <div className="flex items-center justify-center">
             <button

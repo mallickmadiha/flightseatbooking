@@ -3,7 +3,7 @@ import Booking from '../../Components/Booking/Booking'
 
 const FlightBook = () => {
   return (
-    <div><Booking/></div>
+    <Booking />
   )
 }
 

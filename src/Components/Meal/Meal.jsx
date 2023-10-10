@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
 const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
+  
   const dispatch = useDispatch();
-  const bookings = useSelector((state) => state.bookings);
-  const [orderList, setOrderList] = useState(bookings.bookings[0]?.meals || []);
+  const bookings = useSelector((state) => state.bookings.bookings);
+  
+  const [orderList, setOrderList] = useState(storedBooking?.meals || []);
 
   const menu = [
     {
@@ -96,7 +98,7 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
           meals: orderList,
         })
       );
-    console.log(bookings.meals);
+    console.log("ffffffffffffff",bookings.meals);
     Swal.fire({
       title: "Success!",
       text: "Meals Added Successfully",
@@ -205,11 +207,11 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
           Save Meals
         </button>
         <button
-          //   onClick={() => {
-          //     setShowMeal(false);
-          //     setShowLuggage(false);
-          //     setShowSeat(true);
-          //   }}
+          onClick={() => {
+            setShowMeal(false);
+            setShowLuggage(true);
+            setShowSeat(false);
+          }}
           className="py-2 px-4 mb-6 bg-greyblue rounded-sm
                 font-medium text-white uppercase
                 focus:outline-none hover:bg-greyblue hover:shadow-none"

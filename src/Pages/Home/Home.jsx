@@ -82,7 +82,6 @@ const Home = () => {
     </div>
   );
 
-  // const users = useSelector(state => state.users)
   const storedData = localStorage.getItem("user");
   const userData = JSON.parse(storedData) || {};
 
@@ -145,7 +144,7 @@ const Home = () => {
           alt="flyingplanenobg"
         />
         <div className="container absolute mt-20 lg:mt-40">
-          <form className="flex items-center flex-wrap gap-6 py-5 justify-center bg-white lg:w-9/12 mx-auto shadow-xl">
+          <form className="flex items-center flex-wrap gap-6 py-5 justify-center bg-white lg:w-10/12 mx-auto shadow-xl">
             <div className="mb-6">
               <label
                 htmlFor="airport"

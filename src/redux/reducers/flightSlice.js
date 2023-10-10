@@ -49,6 +49,7 @@ const initialState = {
         carriers: "70",
       },
       price: "1200",
+      luggageCapacity: 45
     },
   ],
 };
