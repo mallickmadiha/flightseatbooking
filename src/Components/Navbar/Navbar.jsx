@@ -24,7 +24,9 @@ const Navbar = ({ name }) => {
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <span className="text-gray-700 md:visible invisible">Welcome Back, {name} !</span>
+            <span className="text-gray-700 md:visible invisible">
+              Welcome Back, {name} !
+            </span>
             <div className="relative ml-3">
               <div>
                 <button
@@ -49,6 +51,12 @@ const Navbar = ({ name }) => {
               onClick={handleLogout}
             >
               Logout
+            </button>
+            <button
+              className="text-white mx-4 bg-gradient-to-r mt-2 from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+              onClick={() => navigate("/admin")}
+            >
+              Admin
             </button>
           </div>
         </div>
