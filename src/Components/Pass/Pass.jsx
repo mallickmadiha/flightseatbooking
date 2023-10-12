@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 const Pass = () => {
   const bookings = useSelector((state) => state.bookings?.bookings[0]);
-  console.log(bookings);
+
+  const dateString = bookings.selectedTakeoffTime;
+  const date = new Date(dateString);
+
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+
+  const time = `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")}`;
+
   return (
     <>
       {bookings?.seats?.booked.map((value, index) => {
@@ -22,17 +32,19 @@ const Pass = () => {
               </div>
               <div className="departure-time">
                 <div className="item">departure time</div>
-                <div className="lgdetail">5:19am</div>
+                <div className="lgdetail">{time}</div>
               </div>
               <div className="departing">
                 <div className="item">departing</div>
-                <div className="smdetail">{bookings.locationFrom.city}({bookings.locationFrom.code})</div>
+                <div className="smdetail">
+                  {bookings.locationFrom.city}({bookings.locationFrom.code})
+                </div>
               </div>
             </div>
             <div className="ticket-middle">
               <div className="passenger-name">
                 <div className="item">passenger</div>
-                <div className="smdetail">smith, john r</div>
+                <div className="smdetail">Xyz passenger</div>
               </div>
               <div className="gate">
                 <div className="item">gate</div>
@@ -40,36 +52,38 @@ const Pass = () => {
               </div>
               <div className="flight">
                 <div className="item">flight</div>
-                <div className="lgdetail">402rd</div>
+                <div className="lgdetail">{bookings.name}</div>
               </div>
               <div className="destination">
                 <div className="item">destination</div>
-                <div className="smdetail">{bookings.locationTo.city}({bookings.locationTo.code})</div>
+                <div className="smdetail">
+                  {bookings.locationTo.city}({bookings.locationTo.code})
+                </div>
               </div>
               <div className="group">
                 <div className="item">group</div>
-                <div className="smdetail">3</div>
+                <div className="smdetail">A</div>
               </div>
               <div className="serial">
-                <div>z8 4653 402 16waj 4798p</div>
+                <div>{bookings.bookingId}</div>
               </div>
             </div>
             <div className="ticket-right">
               <div className="stub-flight">
                 <div className="smitem">flight</div>
-                <div className="exsmdetail">402rd</div>
+                <div className="exsmdetail">{bookings.name}</div>
               </div>
               <div className="stub-seat">
                 <div className="smitem">seat</div>
-                <div className="exsmdetail">25a</div>
+                <div className="exsmdetail">{value}</div>
               </div>
               <div className="stub-depart">
                 <div className="smitem">depart</div>
-                <div className="exsmdetail">5:19am</div>
+                <div className="exsmdetail">{time}</div>
               </div>
               <div className="stub-passenger">
                 <div className="smitem">passenger</div>
-                <div className="exsmdetail">Smith, John, R</div>
+                <div className="exsmdetail">Xyz passenger</div>
               </div>
               <div className="barcode">3859384847</div>
             </div>

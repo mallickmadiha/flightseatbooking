@@ -18,12 +18,16 @@ const Home = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  // eslint-disable-next-line no-unused-vars
-  const [flights, setFlights] = useLocalStorage("flights", []);
-  const [fliteredFlights, setFliteredFlights] = useState([]);
   const storedFlights = useSelector((state) => state.flights.flights);
 
-  console.log(storedFlights);
+  // eslint-disable-next-line no-unused-vars
+  const [flights, setFlights] = useLocalStorage("flights", storedFlights);
+
+  console.log(storedFlights, flights);
+
+  const [fliteredFlights, setFliteredFlights] = useState([]);
+
+  // {storedFlights && setFlights(storedFlights)}
 
   const [selectedTakeoffTime, setSelectedTakeoffTime] = useState("");
   const [locationFrom, setLocationFrom] = useState({
@@ -115,11 +119,12 @@ const Home = () => {
         setFliteredFlights(filteredFlights);
       }
 
+      setFliteredFlights(filteredFlights);
       setTimeout(() => {
         setLoading(false);
         window.scrollTo({
           top: window.innerHeight,
-          behavior: 'smooth',
+          behavior: "smooth",
         });
       }, 1000);
     } else {
@@ -216,7 +221,7 @@ const Home = () => {
       <div>
         {fliteredFlights &&
           fliteredFlights.map((flight, index) => {
-            return <FlightCard key={flight.id} flight={flight} />;
+            return <FlightCard key={index} flight={flight} />;
           })}
       </div>
     </>

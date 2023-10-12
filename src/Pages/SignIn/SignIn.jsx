@@ -33,16 +33,15 @@ const SignIn = () => {
     }
 
     const user = JSON.parse(localStorage.getItem("user"));
-    const updatedUserData = { ...user, islogged: true };
-    localStorage.setItem("user", JSON.stringify(updatedUserData));
-
     if (email === user?.email && password === user?.password) {
+      const updatedUserData = { ...user, islogged: true };
+      localStorage.setItem("user", JSON.stringify(updatedUserData));
       dispatch(
         addUsers({
           name: user.name,
           email,
           password,
-          islogged: true
+          islogged: true,
         })
       );
       Swal.fire({

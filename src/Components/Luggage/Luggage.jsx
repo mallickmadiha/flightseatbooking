@@ -63,7 +63,7 @@ const Luggage = ({
   return (
     <>
       <div>
-        <form className="bg-white flex justify-around items-center md:w-2/4 mx-auto flex-wrap rounded md:px-8 px-2 pt-6 pb-8 my-4">
+        <form className="bg-white shadow-md border-gray-100 border flex justify-around items-center md:w-2/4 mx-auto flex-wrap rounded md:px-8 px-2 pt-6 pb-8 my-4">
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
@@ -122,9 +122,9 @@ const Luggage = ({
               </div>
             );
           })}
-        <p className="text-xl my-10 text-center">
+        {/* <p className="text-xl my-10 text-center">
           Total Weight: {totalweight} Kg
-        </p>
+        </p> */}
       </div>
       <div className="flex items-center justify-center gap-10 mt-32">
         <button

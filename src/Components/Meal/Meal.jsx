@@ -80,17 +80,13 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
   const deleteItem = (index) => {
     const updatedOrderList = [...orderList];
 
-    if (updatedOrderList[index].quantity > 1) {
-      updatedOrderList[index].quantity -= 1;
-    } else {
-      updatedOrderList.splice(index, 1);
-    }
+    updatedOrderList.splice(index, 1);
     setOrderList(updatedOrderList);
   };
 
   const handleSubmit = () => {
     console.log(orderList);
-    orderList &&
+    // orderList &&
       dispatch(
         addMealsToBooking({
           bookingId: storedBooking.bookingId,
