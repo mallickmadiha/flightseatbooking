@@ -4,7 +4,7 @@ import Loader from "../../Components/Loader/Loader";
 import Swal from "sweetalert2";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../redux/reducers/userSlice";
+import { addUsers, loginUser } from "../../redux/reducers/userSlice";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -36,9 +36,15 @@ const SignIn = () => {
     const updatedUserData = { ...user, islogged: true };
     localStorage.setItem("user", JSON.stringify(updatedUserData));
 
-    dispatch(loginUser(user.id));
-
     if (email === user?.email && password === user?.password) {
+      dispatch(
+        addUsers({
+          name: user.name,
+          email,
+          password,
+          islogged: true
+        })
+      );
       Swal.fire({
         title: "Successful",
         text: "You will be logged in few seconds",

@@ -5,6 +5,7 @@ import Home from "./Pages/Home/Home";
 import AdminHome from "./Pages/admin/Home/Home";
 import AdminSignIn from "./Pages/admin/Signin/Signin";
 import FlightBook from "./Pages/FlightBook/FlightBook";
+import BoardingPass from "./Pages/BoardingPass/BoardingPass";
 
 function App() {
   const storedData = localStorage.getItem("users");
@@ -14,8 +15,6 @@ function App() {
     <div className="App font-nunito">
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/flighbook" element={<FlightBook />} />
           <Route
             path="/signup"
             element={userData?.loggedIn ? <Home /> : <SignUp />}
@@ -24,6 +23,9 @@ function App() {
             path="/signin"
             element={userData?.loggedIn ? <Home /> : <SignIn />}
           />
+          <Route path="/" element={<Home />} />
+          <Route path="/flighbook" element={<FlightBook />} />
+          <Route path="/boarding-pass" element={<BoardingPass/>}/>
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/admin/signin" element={<AdminSignIn />} />
         </Routes>

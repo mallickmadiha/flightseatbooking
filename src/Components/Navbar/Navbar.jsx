@@ -20,11 +20,11 @@ const Navbar = ({ name }) => {
         <div className="relative flex h-16 items-center justify-between">
           <div className="flex flex-1 items-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
-              <i class="fa fa-solid fa-plane text-blue-700 text-2xl"></i>
+              <i className="fa fa-solid fa-plane text-blue-700 text-2xl"></i>
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <span className="text-gray-700">Welcome Back, {name} !</span>
+            <span className="text-gray-700 md:visible invisible">Welcome Back, {name} !</span>
             <div className="relative ml-3">
               <div>
                 <button

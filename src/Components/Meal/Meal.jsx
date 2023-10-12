@@ -4,11 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
 const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
-  
   const dispatch = useDispatch();
-  const bookings = useSelector((state) => state.bookings.bookings);
-  
-  const [orderList, setOrderList] = useState(storedBooking?.meals || []);
+  const bookings = useSelector((state) => state.bookings?.bookings[0]);
+
+  const [orderList, setOrderList] = useState(bookings?.meals || []);
 
   const menu = [
     {
@@ -98,7 +97,6 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
           meals: orderList,
         })
       );
-    console.log("ffffffffffffff",bookings.meals);
     Swal.fire({
       title: "Success!",
       text: "Meals Added Successfully",
@@ -112,8 +110,8 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
 
   return (
     <>
-      <div className="flex mt-5 container mx-auto ">
-        <section className="w-1/2 bg-gray-50 mr-4 border border-gray-300 rounded-xl p-4">
+      <div className="flex mt-5 container mx-auto md:flex-row flex-col">
+        <section className="md:w-1/2 bg-gray-50 md:mr-4 border border-gray-300 rounded-xl p-4">
           <h2 className="text-lg font-semibold mb-4">Order(s)</h2>
           {orderList.length > 0 ? (
             <table className="w-full">
@@ -147,7 +145,7 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
             <p className="text-center">Your order list is empty</p>
           )}
         </section>
-        <section className="w-1/2 bg-gray-50 border border-gray-300 rounded-xl p-4">
+        <section className="md:w-1/2 bg-gray-50 border border-gray-300 rounded-xl p-4">
           <h2 className="text-lg font-semibold mb-4">Menu</h2>
           <div className="menu">
             {menu.map((item, index) => (
@@ -183,7 +181,7 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
           </div>
         </section>
       </div>
-      <div className="flex items-center justify-center mt-8 gap-40">
+      <div className="flex items-center justify-center mt-8 md:gap-40 gap-5">
         <button
           onClick={() => {
             setShowMeal(false);

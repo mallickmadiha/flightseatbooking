@@ -13,7 +13,6 @@ import { useDispatch } from "react-redux";
 import { addFlight } from "../../redux/reducers/flightSlice";
 
 const AddFlight = ({ setShowadd }) => {
-
   const [flights, setFlights] = useLocalStorage("flights", []);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -81,26 +80,18 @@ const AddFlight = ({ setShowadd }) => {
 
   useEffect(() => {
     setFlights(flights);
-  }, [flights, setShowadd, setFlights])
+  }, [flights, setShowadd, setFlights]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
-      !name ||
-      !selectedLandingTime ||
-      !selectedLandingTime ||
-      !locationFrom ||
-      !locationTo ||
-      !price
+      name &&
+      selectedLandingTime &&
+      selectedLandingTime &&
+      locationFrom &&
+      locationTo &&
+      price
     ) {
-      Swal.fire({
-        title: "Info!",
-        text: "Please fill up all required fields",
-        icon: "info",
-        confirmButtonText: "Try again",
-      }).then(() => setLoading(false));
-      return;
-    } else {
       dispatch(
         addFlight({
           name: name,
@@ -109,7 +100,7 @@ const AddFlight = ({ setShowadd }) => {
           locationFrom: locationFrom,
           locationTo: locationTo,
           price: price,
-          luggageCapacity: luggageCapacity
+          luggageCapacity: luggageCapacity,
         })
       );
       setFlights([
@@ -122,7 +113,7 @@ const AddFlight = ({ setShowadd }) => {
           locationFrom: locationFrom,
           locationTo: locationTo,
           price: price,
-          luggageCapacity: luggageCapacity
+          luggageCapacity: luggageCapacity,
         },
       ]);
       Swal.fire({
@@ -135,6 +126,14 @@ const AddFlight = ({ setShowadd }) => {
           setShowadd(false);
         }, 500)
       );
+    } else {
+      Swal.fire({
+        title: "Info!",
+        text: "Please fill up all required fields",
+        icon: "info",
+        confirmButtonText: "Try again",
+      }).then(() => setLoading(false));
+      return;
     }
   };
 

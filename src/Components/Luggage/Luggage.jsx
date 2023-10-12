@@ -2,39 +2,53 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { addLuggageToBooking } from "../../redux/reducers/bookingSlice";
+import { useNavigate } from "react-router-dom";
 
-const Luggage = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
-  const dispatch = useDispatch()
-  const bookings = useSelector((state) => state.bookings.bookings);
-  const [luggageList, setLuggageList] = useState(storedBooking?.luggage || []);
-  const [name, setName] = useState('');
-  const [weight, setWeight] = useState('');
-  const [totalweight, setTotalweight] = useState(0)
+const Luggage = ({
+  setShowLuggage,
+  setShowMeal,
+  setShowSeat,
+  storedBooking,
+}) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const bookings = useSelector((state) => state.bookings?.bookings[0]);
+  const [luggageList, setLuggageList] = useState(bookings?.luggage || []);
+  const [name, setName] = useState("");
+  const [weight, setWeight] = useState("");
+  const [totalweight, setTotalweight] = useState(0);
 
   const handleLuggageAdd = (e) => {
-    e.preventDefault()
-    if ((totalweight + parseFloat(weight)) > storedBooking.luggageCapacity) {
+    e.preventDefault();
+    if (totalweight + parseFloat(weight) > storedBooking.luggageCapacity) {
       Swal.fire({
         title: "Info!",
         text: `Your Luggage Increased the Luggage Capacity (${storedBooking.luggageCapacity} Kg)`,
         icon: "info",
         confirmButtonText: "Try again",
-      }); return;
+      });
+      return;
     }
-    setLuggageList([...luggageList, {
-      name: name,
-      weight: weight
-    }])
+    setLuggageList([
+      ...luggageList,
+      {
+        name: name,
+        weight: weight,
+      },
+    ]);
+    setName("");
+    setWeight("");
+    setTotalweight(totalweight + parseFloat(weight));
+  };
+
+  const handleSubmit = (e) => {
     luggageList &&
-    dispatch(
-      addLuggageToBooking({
-        bookingId: storedBooking.bookingId,
-        luggage: luggageList,
-      })
-    );
-    setName('')
-    setWeight('')
-    setTotalweight(totalweight + parseFloat(weight))
+      dispatch(
+        addLuggageToBooking({
+          bookingId: storedBooking.bookingId,
+          luggage: luggageList,
+        })
+      );
     Swal.fire({
       title: "Success!",
       text: "Luggage Details Added Successfully",
@@ -44,28 +58,39 @@ const Luggage = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) =>
       storedBooking.luggage = luggageList;
       localStorage.setItem("booking", JSON.stringify(storedBooking));
     });
-  }
-
-  console.log(luggageList)
+  };
 
   return (
     <>
       <div>
-        <form class="bg-white flex justify-around items-center w-2/4 mx-auto rounded px-8 pt-6 pb-8 my-4">
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+        <form className="bg-white flex justify-around items-center md:w-2/4 mx-auto flex-wrap rounded md:px-8 px-2 pt-6 pb-8 my-4">
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="name"
+            >
               Name of Luggage
             </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Name of Luggage"
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="username"
+              type="text"
+              placeholder="Name of Luggage"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="weight">
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="weight"
+            >
               Weight (Kg)
             </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" placeholder="Weight (kg)"
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="username"
+              placeholder="Weight (kg)"
               type="number"
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
@@ -80,16 +105,26 @@ const Luggage = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) =>
             </button>
           </div>
         </form>
-        {luggageList.length > 0 && (
+        {luggageList.length > 0 &&
           luggageList.map((value, index) => {
             return (
-              <div className="my-2 w-1/3 mx-auto bg-slate-100 shadow-lg p-5">
-                <span className="mx-20"><span className="font-semibold mx-2">Name:</span> {value.name}</span>
-                <span><span className="font-semibold">Weight:</span> {value.weight}</span>
+              <div
+                key={index}
+                className="my-2 md:w-2/4 mx-auto bg-slate-100 shadow-lg py-5 px-10 flex justify-between"
+              >
+                <div>
+                  <span className="font-semibold mx-2">Name:</span> {value.name}
+                </div>
+                <div>
+                  <span className="font-semibold mx-2">Weight:</span>{" "}
+                  {value.weight}
+                </div>
               </div>
-            )
-          }))}
-        <p className="text-xl my-10 text-center">Total Weight: {totalweight} Kg</p>
+            );
+          })}
+        <p className="text-xl my-10 text-center">
+          Total Weight: {totalweight} Kg
+        </p>
       </div>
       <div className="flex items-center justify-center gap-10 mt-32">
         <button
@@ -97,7 +132,8 @@ const Luggage = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) =>
             setShowMeal(true);
             setShowLuggage(false);
             setShowSeat(false);
-          }} className="py-2 px-4 mb-6 bg-greyblue rounded-sm
+          }}
+          className="py-2 px-4 mb-6 bg-greyblue rounded-sm
           font-medium text-white uppercase
           focus:outline-none hover:bg-greyblue hover:shadow-none"
           type="submit"
@@ -105,17 +141,27 @@ const Luggage = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) =>
           <i className="fa fa-solid fa-backward"></i>
         </button>
         <button
-          // onClick={() => {
-          //   setShowMeal(false);
-          //   setShowLuggage(false);
-          //   setShowSeat(true);
-          // }}
+          onClick={handleSubmit}
+          className="py-2 px-4 mb-6 bg-greyblue rounded-sm
+              font-medium text-white uppercase
+              focus:outline-none hover:bg-greyblue hover:shadow-none"
+          type="submit"
+        >
+          Save Luggage
+        </button>
+        <button
+          onClick={() => {
+            setShowMeal(false);
+            setShowLuggage(false);
+            setShowSeat(false);
+            navigate("/boarding-pass");
+          }}
           className="py-2 px-4 mb-6 bg-greyblue rounded-sm
           font-medium text-white uppercase
           focus:outline-none hover:bg-greyblue hover:shadow-none"
           type="submit"
         >
-          Get My Pass
+          <i className="fa fa-solid fa-forward"></i>
         </button>
       </div>
     </>

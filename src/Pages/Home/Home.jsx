@@ -21,7 +21,7 @@ const Home = () => {
   // eslint-disable-next-line no-unused-vars
   const [flights, setFlights] = useLocalStorage("flights", []);
   const [fliteredFlights, setFliteredFlights] = useState([]);
-  const storedFlights = useSelector((state) => state.flights);
+  const storedFlights = useSelector((state) => state.flights.flights);
 
   console.log(storedFlights);
 
@@ -104,8 +104,8 @@ const Home = () => {
           flight.locationTo.code === locationTo.code
       );
 
-      if (storedFlights.flights) {
-        const storedFilteredFlights = storedFlights.flights.filter(
+      if (storedFlights) {
+        const storedFilteredFlights = storedFlights.filter(
           (flight) =>
             flight.locationFrom.code === locationFrom.code &&
             flight.locationTo.code === locationTo.code

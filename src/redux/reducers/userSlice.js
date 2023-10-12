@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { nanoid } from 'nanoid'
+import { nanoid } from "nanoid";
 
 const initialState = {
   users: [],
@@ -10,13 +10,13 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     addUsers: (state, action) => {
-      const { name, email, password } = action.payload;
+      const { name, email, password, islogged } = action.payload;
       const user = {
         id: nanoid(),
         name,
         email,
         password,
-        islogged: false,
+        islogged: islogged,
       };
       localStorage.setItem(
         "user",
@@ -25,7 +25,7 @@ export const userSlice = createSlice({
           name: user.name,
           email: user.email,
           password: user.password,
-          islogged: false,
+          islogged: islogged,
         })
       );
       state.users.push(user);

@@ -17,18 +17,17 @@ const SignUp = () => {
   const [visibleconfirmPassword, setVisibleconfirmPassword] = useState(false);
   const navigate = useNavigate();
 
-
   const storedData = localStorage.getItem("user");
   const userData = JSON.parse(storedData) || {};
 
   console.log("User", storedData);
 
-  useEffect(()=>{
-    if(userData.islogged === true || storedData){
-      navigate('/')
+  useEffect(() => {
+    if (userData.islogged === true || storedData) {
+      navigate("/");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[userData, storedData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData, storedData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,13 +47,6 @@ const SignUp = () => {
       }).then(() => setLoading(false));
     } else {
       setLoading(true);
-      dispatch(
-        addUsers({
-          name,
-          email,
-          password
-        })
-      );
       Swal.fire({
         title: "Success!",
         text: "User Added Successfully!",
@@ -62,6 +54,15 @@ const SignUp = () => {
         confirmButtonText: "Go to Login",
       }).then((result) => {
         if (result["isConfirmed"]) {
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              name,
+              email,
+              password,
+              islogged: false,
+            })
+          );
           setLoading(false);
           navigate("/signin");
         }
@@ -97,9 +98,7 @@ const SignUp = () => {
         </div>
         <div className="md:rounded-l-2xl rounded-b-2xl bg-slate-100 shadow-2xl">
           <div className="flex flex-col justify-center items-center h-full">
-            <h1 className="text-center  font-bold text-3xl mt-6">
-              Register
-            </h1>
+            <h1 className="text-center  font-bold text-3xl mt-6">Register</h1>
             <form className="mt-4 md:p-6 p-2 w-3/4" method="POST">
               <div className="grid grid-cols-1 md:grid-cols-1 gap-3">
                 <div className="col-span-1">

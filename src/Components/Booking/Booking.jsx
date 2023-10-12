@@ -12,11 +12,13 @@ const Booking = () => {
   const [showSeat, setShowSeat] = useState(true);
   const [showLuggage, setShowLuggage] = useState(false);
 
+  const bookings = useSelector((state) => state.bookings?.bookings[0]);
+
   const dispatch = useDispatch();
   const storedBooking = JSON.parse(localStorage.getItem("booking"));
 
   const [disableBookings, setDisabledBookings] = useState(
-    storedBooking.seats?.booked || []
+    bookings?.seats?.booked || []
   );
 
   const handleSeatSelection = (seatId) => {
@@ -51,7 +53,7 @@ const Booking = () => {
   const rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
     <div className="mt-5">
-      <h1 className="text-3xl text-center">
+      <h1 className="text-lg xl:text-3xl lg:text-3xl md:text-3xl text-center">
         {storedBooking.name} ({storedBooking.locationFrom.code}
         <span>
           <i className="fa fa-arrow-circle-o-right mx-2" />
