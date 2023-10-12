@@ -3,11 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import Swal from "sweetalert2";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import { addUsers } from "../../redux/reducers/userSlice";
-import { useDispatch } from "react-redux";
 
 const SignUp = () => {
-  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

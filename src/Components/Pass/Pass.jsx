@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 
 const Pass = () => {
   const bookings = useSelector((state) => state.bookings?.bookings[0]);
 
-  const dateString = bookings.selectedTakeoffTime;
+  const dateString = bookings?.selectedTakeoffTime;
   const date = new Date(dateString);
 
   const hours = date.getUTCHours();

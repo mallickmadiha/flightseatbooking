@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddFlight from "../../../Components/AddFlight/AddFlight";
 import { useSelector } from "react-redux";
 import useLocalStorage from "../../../hooks/useLocalStorage";
 import FlightCard from "../../../Components/FlightCard/FlightCard";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   // eslint-disable-next-line no-unused-vars
   const [flights, setFlights] = useLocalStorage("flights", []);
   const storedFlights = useSelector((state) => state.flights);
   const [showadd, setShowadd] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("admin") !== "true") {
+      navigate("/admin/signin");
+    }
+  }, [navigate]);
 
   return (
     <>

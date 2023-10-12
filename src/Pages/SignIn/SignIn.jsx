@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import Swal from "sweetalert2";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
-import { addUsers, loginUser } from "../../redux/reducers/userSlice";
+import { addUsers } from "../../redux/reducers/userSlice";
 
 const SignIn = () => {
   const navigate = useNavigate();

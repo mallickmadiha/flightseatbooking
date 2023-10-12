@@ -26,10 +26,7 @@ const Signin = () => {
     }
 
     if (email === "mallickmadiha9031@gmail.com" && password === "12345") {
-      localStorage.setItem("admin", JSON.stringify({
-        email: "mallickmadiha9031@gmail.com",
-        password: "12345"
-      }));
+      localStorage.setItem("admin", true);
       Swal.fire({
         title: "Successful",
         text: "You will be logged in few seconds",
