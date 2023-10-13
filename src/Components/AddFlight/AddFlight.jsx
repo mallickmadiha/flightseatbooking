@@ -6,7 +6,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Select from "react-select";
 import airports from "../../api/airports.json";
 import Swal from "sweetalert2";
-import Loader from "../../Components/Loader/Loader";
+import Loader from "../Loader/Loader";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { nanoid } from "nanoid";
 import { useDispatch } from "react-redux";
