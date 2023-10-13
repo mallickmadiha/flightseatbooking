@@ -1,5 +1,10 @@
 module.exports = {
-    collectCoverageFrom: ['<rootDir>/src/**/*.{js,jsx,ts,tsx}'],
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  };
-  
+  collectCoverage: true,
+  collectCoverageFrom: ["src/**/*.{js,jsx}"],
+  coverageDirectory: "coverage",
+  testEnvironment: "jsdom",
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  // transform: {
+  //   "^.+\\.js$": "babel-jest"
+  // },
+};

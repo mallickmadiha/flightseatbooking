@@ -138,7 +138,7 @@ const AddFlight = ({ setShowadd }) => {
   };
 
   return (
-    <div className="flight-container">
+    <div className="flight-container" data-testid="addflight">
       <Loader active={loading} />
       <div className="px-10 pt-5 md:w-2/4 mx-auto bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10">
         <div className="flex justify-evenly">
