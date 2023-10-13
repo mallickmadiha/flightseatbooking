@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
   flights: [],
@@ -19,7 +19,7 @@ export const flightSLice = createSlice({
         locationTo,
       } = action.payload;
       const flight = {
-        id: nanoid(),
+        id: uuidv4(),
         name,
         selectedTakeoffTime,
         selectedLandingTime,

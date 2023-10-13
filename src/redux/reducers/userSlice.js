@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
   users: [],
@@ -12,7 +12,7 @@ export const userSlice = createSlice({
     addUsers: (state, action) => {
       const { name, email, password, islogged } = action.payload;
       const user = {
-        id: nanoid(),
+        id: uuidv4(),
         name,
         email,
         password,

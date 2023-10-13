@@ -4,7 +4,7 @@ const FlightSeat = ({ seatNo, disabledseats, handleSeatSelection }) => {
   return (
     <li className={`row row--${seatNo}`}>
       <ol className="seats" type="A">
-        {!disabledseats.includes(`${seatNo}A`) ? (
+        {!disabledseats?.includes(`${seatNo}A`) ? (
           <li className="seat">
             <input
               type="checkbox"
