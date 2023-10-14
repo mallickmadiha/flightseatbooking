@@ -85,7 +85,6 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
   };
 
   const handleSubmit = () => {
-    console.log(orderList);
     // orderList &&
       dispatch(
         addMealsToBooking({

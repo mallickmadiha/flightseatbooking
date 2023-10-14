@@ -19,10 +19,41 @@ const SignIn = () => {
 
   const { email, password } = inputValues;
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    if (!email || !password) {
+    if (email && password) {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (email === user?.email && password === user?.password) {
+        const updatedUserData = { ...user, islogged: true };
+        localStorage.setItem("user", JSON.stringify(updatedUserData));
+        dispatch(
+          addUsers({
+            name: user.name,
+            email,
+            password,
+            islogged: true,
+          })
+        );
+        Swal.fire({
+          title: "Successful",
+          text: "Logged In Successfully",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() =>
+          setTimeout(() => {
+            navigate("/");
+          }, 500)
+        );
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Invalid username or password",
+          icon: "error",
+          confirmButtonText: "Try again",
+        }).then(() => setLoading(false));
+      }
+    } else {
       Swal.fire({
         title: "Info!",
         text: "Please fill up all required fields",
@@ -30,37 +61,6 @@ const SignIn = () => {
         confirmButtonText: "Try again",
       }).then(() => setLoading(false));
       return;
-    }
-
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (email === user?.email && password === user?.password) {
-      const updatedUserData = { ...user, islogged: true };
-      localStorage.setItem("user", JSON.stringify(updatedUserData));
-      dispatch(
-        addUsers({
-          name: user.name,
-          email,
-          password,
-          islogged: true,
-        })
-      );
-      Swal.fire({
-        title: "Successful",
-        text: "You will be logged in few seconds",
-        icon: "success",
-        confirmButtonText: "OK",
-      }).then(() =>
-        setTimeout(() => {
-          navigate("/");
-        }, 500)
-      );
-    } else {
-      Swal.fire({
-        title: "Error!",
-        text: "Invalid username or password",
-        icon: "error",
-        confirmButtonText: "Try again",
-      }).then(() => setLoading(false));
     }
   };
 
@@ -80,13 +80,13 @@ const SignIn = () => {
   return (
     <div className="flex h-screen">
       <Loader active={loading} />
-      <div className="m-auto grid grid-cols-1 md:grid-cols-2 gap-0 lg:w-2/3 md:w-3/4 w-full md:h-3/4">
-        <div className="left-side md:order-first order-last md:rounded-l-2xl shadow-2xl">
+      <div className="m-auto grid grid-cols-1 md:grid-cols-2 gap-0 lg:w-2/3 w-full md:h-3/4">
+        <div className="left-side md:order-first order-first md:rounded-l-2xl shadow-2xl">
           <div className="flex flex-col justify-center items-center m-10 h-full">
             <h1 className="text-center text-white text-3xl font-bold">
               Hello, There!
             </h1>
-            <i className="text-center text-white text-lg mt-3">
+            <i className="text-center text-white md:text-lg text-sm mt-3">
               "Travel far enough, to meet yourself!" - David Mitchell
             </i>
             <Link
@@ -101,7 +101,7 @@ const SignIn = () => {
         <div className="md:rounded-l-2xl rounded-b-2xl bg-slate-100 shadow-2xl">
           <div className="flex flex-col justify-center items-center h-full">
             <h1 className="text-center  font-bold text-3xl mt-6">Login</h1>
-            <form className="mt-4 md:p-6 p-2 w-3/4" method="POST">
+            <form className="mt-4 md:p-6 p-2 md:w-3/4" method="POST">
               <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                 <div className="col-span-1">
                   <input
@@ -152,6 +152,12 @@ const SignIn = () => {
                     Sign In
                   </button>
                 )}
+              </div>
+              <div className="text-center md:text-lg text-sm mb-5">
+                <Link to={"/admin"}>
+                  LogIn as Admin?{" "}
+                  <span className="text-blue-600"> Click Here!</span>
+                </Link>
               </div>
             </form>
           </div>

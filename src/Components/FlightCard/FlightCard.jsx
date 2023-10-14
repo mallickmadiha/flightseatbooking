@@ -1,7 +1,7 @@
 import React from "react";
 import airlineblack from "../../assets/airlineblack.png";
 import { useNavigate } from "react-router-dom";
-import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { addBooking } from "../../redux/reducers/bookingSlice";
 
@@ -24,7 +24,7 @@ const FlightCard = ({ flight }) => {
     if (flight) {
       const flightWithExtras = {
         ...flight,
-        bookingId: nanoid(),
+        bookingId: uuidv4(),
         meals: [],
         luggage: [],
         seats: {

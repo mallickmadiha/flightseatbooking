@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import flyingplanenobg from "../../assets/flyingplanenobg.png";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
@@ -23,11 +22,7 @@ const Home = () => {
   // eslint-disable-next-line no-unused-vars
   const [flights, setFlights] = useLocalStorage("flights", storedFlights);
 
-  console.log(storedFlights, flights);
-
   const [fliteredFlights, setFliteredFlights] = useState([]);
-
-  // {storedFlights && setFlights(storedFlights)}
 
   const [selectedTakeoffTime, setSelectedTakeoffTime] = useState("");
   const [locationFrom, setLocationFrom] = useState({
@@ -88,8 +83,6 @@ const Home = () => {
 
   const storedData = localStorage.getItem("user");
   const userData = JSON.parse(storedData) || {};
-
-  console.log("User", storedData);
 
   useEffect(() => {
     if (userData.islogged === false || !storedData) {
@@ -196,12 +189,10 @@ const Home = () => {
                 Departure Date
               </label>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DateTimePicker"]}>
-                  <DateTimePicker
-                    value={selectedTakeoffTime}
-                    onChange={(newValue) => setSelectedTakeoffTime(newValue)}
-                  />
-                </DemoContainer>
+                <DateTimePicker
+                  value={selectedTakeoffTime}
+                  onChange={(newValue) => setSelectedTakeoffTime(newValue)}
+                />
               </LocalizationProvider>
             </div>
             <div className="mb-6">

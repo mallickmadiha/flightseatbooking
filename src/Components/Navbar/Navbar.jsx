@@ -1,7 +1,8 @@
 import React from "react";
 import { logoutUser } from "../../redux/reducers/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import usericon from "../../assets/usericon.png";
 
 const Navbar = ({ name }) => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Navbar = ({ name }) => {
     dispatch(logoutUser(user.id));
     const updatedUserData = { ...user, islogged: false };
     localStorage.setItem("user", JSON.stringify(updatedUserData));
+    localStorage.removeItem("booking");
     navigate("/signin");
   };
 
@@ -19,30 +21,24 @@ const Navbar = ({ name }) => {
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="flex flex-1 items-center sm:items-stretch sm:justify-start">
-            <div className="flex flex-shrink-0 items-center">
+            <Link to={"/"}>
               <i className="fa fa-solid fa-plane text-blue-700 text-2xl"></i>
-            </div>
+            </Link>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <span className="text-gray-700 md:visible invisible">
-              Welcome Back, {name} !
+              Welcome {name}
             </span>
             <div className="relative ml-3">
               <div>
                 <button
                   type="button"
-                  className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="relative flex rounded-full bg-blue-600 text-sm focus:outline-none"
                   id="user-menu-button"
                   aria-expanded="false"
                   aria-haspopup="true"
                 >
-                  <span className="absolute -inset-1.5"></span>
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
+                  <img className="h-9 w-9 rounded-full" src={usericon} alt="" />
                 </button>
               </div>
             </div>
@@ -51,12 +47,6 @@ const Navbar = ({ name }) => {
               onClick={handleLogout}
             >
               Logout
-            </button>
-            <button
-              className="text-white mx-4 bg-gradient-to-r mt-2 from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-              onClick={() => navigate("/admin")}
-            >
-              Admin
             </button>
           </div>
         </div>

@@ -6,9 +6,9 @@ import FlightCard from "../../../Components/FlightCard/FlightCard";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const storedFlights = useSelector((state) => state.flights.flights);
   // eslint-disable-next-line no-unused-vars
-  const [flights, setFlights] = useLocalStorage("flights", []);
-  const storedFlights = useSelector((state) => state.flights);
+  const [flights, setFlights] = useLocalStorage("flights", storedFlights);
   const [showadd, setShowadd] = useState(false);
   const navigate = useNavigate();
 
@@ -40,12 +40,20 @@ const Home = () => {
               ></i>
             </div>
           </div>
-          {flights.map((flight, index) => {
-            return <FlightCard key={flight.id} flight={flight} />;
-          })}
-          {storedFlights.flights.map((flight, index) => {
-            return <FlightCard key={flight.id} flight={flight} />;
-          })}
+          {storedFlights &&
+            storedFlights.map((flight, index) => {
+              return <FlightCard key={index} flight={flight} />;
+            })}
+          {flights
+            .filter(
+              (flight) =>
+                !storedFlights.find(
+                  (storedFlight) => storedFlight.id === flight.id
+                )
+            )
+            .map((flight, index) => {
+              return <FlightCard key={index} flight={flight} />;
+            })}
         </div>
       )}
     </>

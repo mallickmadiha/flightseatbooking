@@ -30,7 +30,6 @@ const Booking = () => {
   };
 
   const handleSubmit = () => {
-    console.log(selectedSeats);
     selectedSeats &&
       dispatch(
         addSeatsToBooking({

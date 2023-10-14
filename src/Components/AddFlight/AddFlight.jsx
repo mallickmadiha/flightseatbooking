@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
@@ -8,14 +7,16 @@ import airports from "../../api/airports.json";
 import Swal from "sweetalert2";
 import Loader from "../Loader/Loader";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { addFlight } from "../../redux/reducers/flightSlice";
+import { useNavigate } from "react-router-dom";
 
 const AddFlight = ({ setShowadd }) => {
   const [flights, setFlights] = useLocalStorage("flights", []);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [selectedTakeoffTime, setSelectedTakeoffTime] = useState("");
@@ -80,20 +81,23 @@ const AddFlight = ({ setShowadd }) => {
 
   useEffect(() => {
     setFlights(flights);
-  }, [flights, setShowadd, setFlights]);
+  }, [flights, setFlights]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let id = uuidv4()
     if (
       name &&
       selectedLandingTime &&
       selectedLandingTime &&
       locationFrom &&
       locationTo &&
-      price
+      price &&
+      luggageCapacity
     ) {
       dispatch(
         addFlight({
+          id: id,
           name: name,
           selectedLandingTime: selectedLandingTime.toString(),
           selectedTakeoffTime: selectedTakeoffTime.toString(),
@@ -106,7 +110,7 @@ const AddFlight = ({ setShowadd }) => {
       setFlights([
         ...flights,
         {
-          id: nanoid(),
+          id: id,
           name: name,
           selectedLandingTime: selectedLandingTime.toString(),
           selectedTakeoffTime: selectedTakeoffTime.toString(),
@@ -124,6 +128,7 @@ const AddFlight = ({ setShowadd }) => {
       }).then(() =>
         setTimeout(() => {
           setShowadd(false);
+          navigate("/admin");
         }, 500)
       );
     } else {
@@ -138,19 +143,19 @@ const AddFlight = ({ setShowadd }) => {
   };
 
   return (
-    <div className="flight-container" data-testid="addflight">
+    <div className="flight-container pt-8" data-testid="addflight">
       <Loader active={loading} />
-      <div className="px-10 pt-5 md:w-2/4 mx-auto bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10">
+      <div className="md:px-10 px-3 pt-3 md:w-2/4 mx-auto bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10">
         <div className="flex justify-evenly">
-          <h2 className="text-2xl font-bold text-white mt-2 text-center">
+          <h2 className="md:text-2xl text-sm font-bold text-white mt-2 text-center">
             Add Flight Details
             <i className="fa fa-solid fa-plane-departure mx-3 text-blue-500"></i>
           </h2>
           <button
-            className="bg-greyblue py-2.5 px-4 text-white"
+            className="bg-greyblue py-2.5 text-sm md:text-lg md:px-4 px-2 text-white"
             onClick={() => setShowadd(false)}
           >
-            All Flights
+            View All Flights
           </button>
         </div>
         <form>
@@ -168,6 +173,7 @@ const AddFlight = ({ setShowadd }) => {
               placeholder="Flight Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
             />
           </div>
           <div className="mb-6">
@@ -178,12 +184,11 @@ const AddFlight = ({ setShowadd }) => {
               Flight Takeoff Time
             </label>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DateTimePicker"]}>
-                <DateTimePicker
-                  value={selectedTakeoffTime}
-                  onChange={(newValue) => setSelectedTakeoffTime(newValue)}
-                />
-              </DemoContainer>
+              <DateTimePicker
+                value={selectedTakeoffTime}
+                onChange={(newValue) => setSelectedTakeoffTime(newValue)}
+                required
+              />
             </LocalizationProvider>
           </div>
           <div className="mb-6">
@@ -194,12 +199,11 @@ const AddFlight = ({ setShowadd }) => {
               Flight Landing Time
             </label>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DateTimePicker"]}>
-                <DateTimePicker
-                  value={selectedLandingTime}
-                  onChange={(newValue) => setSelectedLandingTime(newValue)}
-                />
-              </DemoContainer>
+              <DateTimePicker
+                value={selectedLandingTime}
+                onChange={(newValue) => setSelectedLandingTime(newValue)}
+                required
+              />
             </LocalizationProvider>
           </div>
           <div className="mb-6">
@@ -219,6 +223,7 @@ const AddFlight = ({ setShowadd }) => {
               getOptionValue={(option) => option.city}
               styles={customStyles}
               name="airport"
+              required
             />
           </div>
           <div className="mb-6">
@@ -238,6 +243,7 @@ const AddFlight = ({ setShowadd }) => {
               getOptionValue={(option) => option.city}
               styles={customStyles}
               name="airport"
+              required
             />
           </div>
           <div className="mb-6">
@@ -258,6 +264,7 @@ const AddFlight = ({ setShowadd }) => {
                 placeholder="Enter Price"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
+                required
               />
             </div>
           </div>
@@ -275,6 +282,7 @@ const AddFlight = ({ setShowadd }) => {
               placeholder="Luggage Capacity"
               value={luggageCapacity}
               onChange={(e) => setLuggageCapacity(e.target.value)}
+              required
             />
           </div>
           <div className="flex items-center justify-center">

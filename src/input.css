@@ -6,13 +6,19 @@
   display: none !important;
 }
 
-.css-a643pv-MuiStack-root>.MuiTextField-root {
+.css-a643pv-MuiStack-root > .MuiTextField-root {
   border-radius: 5px;
   background: white;
 }
 
 .MuiOutlinedInput-notchedOutline {
   border: 1px solid rgb(209, 209, 209) !important;
+}
+
+.css-z3c6am-MuiFormControl-root-MuiTextField-root {
+  width: 100%;
+  border-radius: 10px;
+  background-color: white;
 }
 
 .select__input {
@@ -23,13 +29,6 @@
   background-image: url(./assets/flight1.webp);
   background-size: cover;
   min-height: 100vh;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.card-grey {
-  background-image: url(./assets/cardbg.png);
-  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -60,8 +59,10 @@
 }
 
 .left-side {
-  background-image: linear-gradient(rgba(52, 97, 210, 0.4),
-      rgba(52, 97, 210, 0.4)),
+  background-image: linear-gradient(
+      rgba(52, 97, 210, 0.4),
+      rgba(52, 97, 210, 0.4)
+    ),
     url(./assets/flightsky.jpeg);
   background-position: center;
   background-size: cover;
@@ -69,15 +70,16 @@
 }
 
 .right-side {
-  background-image: linear-gradient(rgba(52, 97, 210, 0.4),
-      rgba(52, 97, 210, 0.4)),
+  background-image: linear-gradient(
+      rgba(52, 97, 210, 0.4),
+      rgba(52, 97, 210, 0.4)
+    ),
     url(./assets/flights.jpg);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
-/* booking page */
 .theatre {
   margin: 20px auto;
   width: 100%;
@@ -133,7 +135,7 @@ ol {
   opacity: 0;
 }
 
-.seat input[type="checkbox"]:checked+label {
+.seat input[type="checkbox"]:checked + label {
   background: #bada55;
   -webkit-animation-name: rubberBand;
   animation-name: rubberBand;
@@ -141,13 +143,13 @@ ol {
   animation-fill-mode: both;
 }
 
-.seat input[type="checkbox"]:disabled+label {
+.seat input[type="checkbox"]:disabled + label {
   background: #ddd;
   text-indent: -9999px;
   overflow: hidden;
 }
 
-.seat input[type="checkbox"]:disabled+label:after {
+.seat input[type="checkbox"]:disabled + label:after {
   content: "X";
   text-indent: 0;
   position: absolute;
@@ -156,7 +158,7 @@ ol {
   transform: translate(-50%, 0%);
 }
 
-.seat input[type="checkbox"]:disabled+label:hover {
+.seat input[type="checkbox"]:disabled + label:hover {
   box-shadow: none;
   cursor: not-allowed;
 }
@@ -181,43 +183,6 @@ ol {
 .seat label:hover {
   cursor: pointer;
   box-shadow: 0px 0 7px 3px #ccc;
-}
-
-@-webkit-keyframes rubberBand {
-  0% {
-    -webkit-transform: scale3d(1, 1, 1);
-    transform: scale3d(1, 1, 1);
-  }
-
-  30% {
-    -webkit-transform: scale3d(1.25, 0.75, 1);
-    transform: scale3d(1.25, 0.75, 1);
-  }
-
-  40% {
-    -webkit-transform: scale3d(0.75, 1.25, 1);
-    transform: scale3d(0.75, 1.25, 1);
-  }
-
-  50% {
-    -webkit-transform: scale3d(1.15, 0.85, 1);
-    transform: scale3d(1.15, 0.85, 1);
-  }
-
-  65% {
-    -webkit-transform: scale3d(0.95, 1.05, 1);
-    transform: scale3d(0.95, 1.05, 1);
-  }
-
-  75% {
-    -webkit-transform: scale3d(1.05, 0.95, 1);
-    transform: scale3d(1.05, 0.95, 1);
-  }
-
-  100% {
-    -webkit-transform: scale3d(1, 1, 1);
-    transform: scale3d(1, 1, 1);
-  }
 }
 
 @keyframes rubberBand {
@@ -295,14 +260,12 @@ ol {
   text-transform: capitalize;
 }
 
-.airplane-container img{
-  max-width: none;
+.airplane-container img {
   width: 70px;
   margin-top: 1rem;
   margin-left: 1rem;
 }
 
-/* start ticket-left*/
 .ticket-left {
   background-color: white;
   border-radius: 50px 0 0 50px;
@@ -320,7 +283,7 @@ ol {
 }
 
 .airplane {
-  font-size: 70px;
+  /* font-size: 70px; */
   line-height: 100px;
 }
 
@@ -333,9 +296,7 @@ ol {
   grid-column: 1 / span 2;
   grid-row: 3;
 }
-/*end ticket-left*/
 
-/*start ticket-middle*/
 .ticket-middle {
   background-color: #b6d5eb;
   border-right: 1.7px dotted black;
@@ -347,16 +308,16 @@ ol {
   padding-right: 30px;
 }
 
-.passenger-name {
+.destination-time {
   grid-column: 1 / span 3;
 }
 
-.gate {
-  grid-column: 2;
+.destination {
+  grid-column: 1 / span 3;
 }
 
-.destination {
-  grid-column: 1 / span 2;
+.flight {
+  grid-column: 1 / span 3;
 }
 
 .serial {
@@ -369,13 +330,11 @@ ol {
   text-align: center;
   text-transform: uppercase;
 }
-/*end ticket-middle*/
 
-/*start ticket-right*/
 .ticket-right {
   display: grid;
   grid-template-columns: 65% 35%;
-  grid-template-rows: 45px 1fr 1fr 1fr 1fr 28px;
+  grid-template-rows: 45px 1fr 1fr 1fr 28px;
 }
 
 .smitem {
@@ -405,10 +364,6 @@ ol {
   grid-row: 4;
 }
 
-.stub-passenger {
-  grid-row: 5;
-}
-
 .barcode {
   font-family: "Libre Barcode 39";
   font-size: 45px;
@@ -419,6 +374,16 @@ ol {
   writing-mode: vertical-rl;
 }
 
+.barcode-phone{
+  font-family: "Libre Barcode 39";
+  font-size: 45px;
+  grid-row: 1 / span 6;
+  line-height: 78.75px;
+  text-orientation: mixed;
+  text-align: center;
+  writing-mode: horizontal-tb;
+}
+
 .jl-logo {
   box-shadow: 0px 0px 9px -2px rgba(0, 0, 0, 0.35);
   border-radius: 50%;
@@ -426,4 +391,31 @@ ol {
   bottom: 20px;
   right: 20px;
 }
-/*end ticket-right*/
+
+@media (max-width: 800px) {
+  .ticket {
+    display: flex;
+    justify-content: center;
+    grid-template-columns: 10% 80% 10%;
+    height: auto;
+    font-size: x-small;
+    margin: auto auto 1rem auto;
+    width: 500px;
+  }
+}
+
+@media (max-width: 568px) {
+  .ticket {
+    display: flex;
+    justify-content: center;
+    grid-template-columns: 10% 80% 10%;
+    height: auto;
+    font-size: x-small;
+    margin: auto auto 1rem auto;
+    width: 400px;
+  }
+
+  .ticket-right {
+    display: none
+  }
+}
