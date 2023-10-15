@@ -12,7 +12,7 @@ const Luggage = ({
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const bookings = useSelector((state) => state.bookings?.bookings[0]);
+  const bookings = useSelector((state) => state.bookings?.bookings);
   const [luggageList, setLuggageList] = useState(bookings?.luggage || []);
   const [name, setName] = useState("");
   const [weight, setWeight] = useState("");
@@ -20,25 +20,34 @@ const Luggage = ({
 
   const handleLuggageAdd = (e) => {
     e.preventDefault();
-    if (totalweight + parseFloat(weight) > storedBooking.luggageCapacity) {
+    if (name && weight) {
+      if (totalweight + parseFloat(weight) > storedBooking.luggageCapacity) {
+        Swal.fire({
+          title: "Info!",
+          text: `Your Luggage Increased the Luggage Capacity (${storedBooking.luggageCapacity} Kg)`,
+          icon: "info",
+          confirmButtonText: "Try again",
+        });
+        return;
+      }
+      setLuggageList([
+        ...luggageList,
+        {
+          name: name,
+          weight: weight,
+        },
+      ]);
+      setTotalweight(totalweight + parseFloat(weight));
+    } else {
       Swal.fire({
         title: "Info!",
-        text: `Your Luggage Increased the Luggage Capacity (${storedBooking.luggageCapacity} Kg)`,
+        text: "Please enter all fields",
         icon: "info",
         confirmButtonText: "Try again",
       });
-      return;
     }
-    setLuggageList([
-      ...luggageList,
-      {
-        name: name,
-        weight: weight,
-      },
-    ]);
     setName("");
     setWeight("");
-    setTotalweight(totalweight + parseFloat(weight));
   };
 
   const handleSubmit = (e) => {
@@ -57,6 +66,10 @@ const Luggage = ({
     }).then(() => {
       storedBooking.luggage = luggageList;
       localStorage.setItem("booking", JSON.stringify(storedBooking));
+      setShowMeal(false);
+      setShowLuggage(false);
+      setShowSeat(false);
+      navigate("/boarding-pass");
     });
   };
 
@@ -78,6 +91,7 @@ const Luggage = ({
               placeholder="Name of Luggage"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
             />
           </div>
           <div className="mb-4">
@@ -93,7 +107,14 @@ const Luggage = ({
               placeholder="Weight (kg)"
               type="number"
               value={weight}
-              onChange={(e) => setWeight(e.target.value)}
+              onChange={(e) => {
+                const newValue = parseFloat(e.target.value);
+
+                if (!isNaN(newValue) && newValue > 0) {
+                  setWeight(newValue);
+                }
+              }}
+              required
             />
           </div>
           <div className="mb-4">
@@ -149,7 +170,7 @@ const Luggage = ({
         >
           Save Luggage
         </button>
-        <button
+        {/* <button
           onClick={() => {
             setShowMeal(false);
             setShowLuggage(false);
@@ -162,7 +183,7 @@ const Luggage = ({
           type="submit"
         >
           <i className="fa fa-solid fa-forward"></i>
-        </button>
+        </button> */}
       </div>
     </>
   );

@@ -11,14 +11,6 @@ export const bookingSLice = createSlice({
     addBooking: (state, action) => {
       state.bookings.push(action.payload);
     },
-    updateBooking: (state, action) => {
-      const updatedBooking = action.payload;
-      state.bookings = state.bookings.map((booking) =>
-        booking.bookingId === updatedBooking.bookingId
-          ? updatedBooking
-          : booking
-      );
-    },
     addSeatsToBooking: (state, action) => {
       const { bookingId, seats } = action.payload;
 
@@ -82,10 +74,18 @@ export const bookingSLice = createSlice({
         state.bookings = updatedBookings;
       }
     },
+    clearBookings: (state) => {
+      state.bookings = [];
+    },
   },
 });
 
-export const { addBooking, updateBooking, addSeatsToBooking , addMealsToBooking, addLuggageToBooking} =
-  bookingSLice.actions;
+export const {
+  addBooking,
+  addSeatsToBooking,
+  addMealsToBooking,
+  addLuggageToBooking,
+  clearBookings
+} = bookingSLice.actions;
 
 export default bookingSLice.reducer;

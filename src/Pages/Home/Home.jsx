@@ -93,7 +93,7 @@ const Home = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (selectedTakeoffTime && locationTo && locationFrom) {
+    if (locationTo && locationFrom) {
       setLoading(true);
       const filteredFlights = flights.filter(
         (flight) =>
@@ -113,6 +113,17 @@ const Home = () => {
       }
 
       setFliteredFlights(filteredFlights);
+      if (filteredFlights.length === 0) {
+        Swal.fire({
+          title: "Oops!",
+          text: "No Flights Available",
+          icon: "info",
+          confirmButtonText: "Try again",
+        }).then(() => {
+          setLoading(false);
+          return;
+        });
+      }
       setTimeout(() => {
         setLoading(false);
         window.scrollTo({

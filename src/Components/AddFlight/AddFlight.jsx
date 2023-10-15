@@ -152,7 +152,7 @@ const AddFlight = ({ setShowadd }) => {
             <i className="fa fa-solid fa-plane-departure mx-3 text-blue-500"></i>
           </h2>
           <button
-            className="bg-greyblue py-2.5 text-sm md:text-lg md:px-4 px-2 text-white"
+            className="bg-greyblue py-2.5 text-sm md:px-4 px-2 text-white"
             onClick={() => setShowadd(false)}
           >
             View All Flights

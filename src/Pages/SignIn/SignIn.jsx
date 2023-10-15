@@ -73,7 +73,8 @@ const SignIn = () => {
     });
   };
 
-  function togglePasswordVisibility() {
+  function togglePasswordVisibility(e) {
+    e.preventDefault();
     setVisible(!visible);
   }
 
@@ -101,7 +102,7 @@ const SignIn = () => {
         <div className="md:rounded-l-2xl rounded-b-2xl bg-slate-100 shadow-2xl">
           <div className="flex flex-col justify-center items-center h-full">
             <h1 className="text-center  font-bold text-3xl mt-6">Login</h1>
-            <form className="mt-4 md:p-6 p-2 md:w-3/4" method="POST">
+            <form className="mt-4 md:p-6 p-2 md:w-3/4">
               <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                 <div className="col-span-1">
                   <input
@@ -125,7 +126,7 @@ const SignIn = () => {
                     required
                   />
                   <button
-                    onClick={togglePasswordVisibility}
+                    onClick={(e) => togglePasswordVisibility(e)}
                     className="togglebtn appearance-none leading-tight focus:outline-none focus:shadow-outline"
                   >
                     {!visible ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}

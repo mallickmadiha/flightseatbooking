@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 
 const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
   const dispatch = useDispatch();
-  const bookings = useSelector((state) => state.bookings?.bookings[0]);
+  const bookings = useSelector((state) => state.bookings?.bookings);
 
   const [orderList, setOrderList] = useState(bookings?.meals || []);
 
@@ -85,7 +85,6 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
   };
 
   const handleSubmit = () => {
-    // orderList &&
       dispatch(
         addMealsToBooking({
           bookingId: storedBooking.bookingId,
@@ -100,6 +99,9 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
     }).then(() => {
       storedBooking.meals = orderList;
       localStorage.setItem("booking", JSON.stringify(storedBooking));
+      setShowMeal(false);
+      setShowLuggage(true);
+      setShowSeat(false);
     });
   };
 
@@ -199,7 +201,7 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
         >
           Save Meals
         </button>
-        <button
+        {/* <button
           onClick={() => {
             setShowMeal(false);
             setShowLuggage(true);
@@ -211,7 +213,7 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
           type="submit"
         >
           <i className="fa fa-solid fa-forward"></i>
-        </button>
+        </button> */}
       </div>
     </>
   );

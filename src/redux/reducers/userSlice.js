@@ -30,13 +30,6 @@ export const userSlice = createSlice({
       );
       state.users.push(user);
     },
-    loginUser: (state, action) => {
-      const userId = action.payload;
-      const user = state.users.find((user) => user.id === userId);
-      if (user) {
-        user.islogged = true;
-      }
-    },
     logoutUser: (state, action) => {
       const userId = action.payload;
       const user = state.users.find((user) => user.id === userId);
@@ -47,6 +40,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { addUsers, loginUser, logoutUser } = userSlice.actions;
+export const { addUsers, logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;

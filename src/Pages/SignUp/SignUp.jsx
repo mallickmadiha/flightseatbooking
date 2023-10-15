@@ -71,10 +71,12 @@ const SignUp = () => {
     }
   };
 
-  function togglePasswordVisibility() {
+  function togglePasswordVisibility(e) {
+    e.preventDefault();
     setVisiblePassword(!visiblePassword);
   }
-  function toggleconfirmPasswordVisibility() {
+  function toggleconfirmPasswordVisibility(e) {
+    e.preventDefault();
     setVisibleconfirmPassword(!visibleconfirmPassword);
   }
 
@@ -100,7 +102,7 @@ const SignUp = () => {
         <div className="md:rounded-l-2xl rounded-b-2xl bg-slate-100 shadow-2xl">
           <div className="flex flex-col justify-center items-center h-full">
             <h1 className="text-center  font-bold text-3xl mt-6">Register</h1>
-            <form className="mt-4 md:p-6 p-2 md:w-3/4" method="POST">
+            <form className="mt-4 md:p-6 p-2 md:w-3/4">
               <div className="grid grid-cols-1 md:grid-cols-1 gap-3">
                 <div className="col-span-1">
                   <input
@@ -132,7 +134,10 @@ const SignUp = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
-                  <div onClick={togglePasswordVisibility} className="togglebtn">
+                  <div
+                    onClick={(e) => togglePasswordVisibility(e)}
+                    className="togglebtn"
+                  >
                     {!visiblePassword ? (
                       <BsFillEyeSlashFill />
                     ) : (
@@ -150,7 +155,7 @@ const SignUp = () => {
                     required
                   />
                   <div
-                    onClick={toggleconfirmPasswordVisibility}
+                    onClick={(e) => toggleconfirmPasswordVisibility(e)}
                     className="togglebtn"
                   >
                     {!visibleconfirmPassword ? (

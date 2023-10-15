@@ -2,40 +2,46 @@ import React from "react";
 import airlineblack from "../../assets/airlineblack.png";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch } from "react-redux";
-import { addBooking } from "../../redux/reducers/bookingSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addBooking, clearBookings } from "../../redux/reducers/bookingSlice";
+import { useLocation } from "react-router-dom";
 
 const FlightCard = ({ flight }) => {
+  const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const bookings = useSelector((state) => state.bookings.bookings);
 
   const landing = new Date(flight.selectedLandingTime);
   const takeoff = new Date(flight.selectedTakeoffTime);
 
   const landingdate = landing.toDateString();
-  // const landingtime = landing.toLocaleTimeString();
-
   const takeoffdate = takeoff.toDateString();
-  // const takeofftime = takeoff.toLocaleTimeString();
 
   const timeDifferenceInMilliseconds = landing - takeoff;
 
   const handleticketclick = (e) => {
-    if (flight) {
-      const flightWithExtras = {
-        ...flight,
-        bookingId: uuidv4(),
-        meals: [],
-        luggage: [],
-        seats: {
-          booked: [],
-        },
-      };
-
-      localStorage.setItem("booking", JSON.stringify(flightWithExtras));
-      dispatch(addBooking(flightWithExtras));
+    if (location.pathname !== "/admin") {
+      if (flight) {
+        const flightWithExtras = {
+          ...flight,
+          bookingId: uuidv4(),
+          meals: [],
+          luggage: [],
+          seats: {
+            booked: [],
+          },
+        };
+        localStorage.setItem("booking", JSON.stringify(flightWithExtras));
+        if (bookings?.length > 0) {
+          dispatch(clearBookings());
+        }
+        dispatch(addBooking(flightWithExtras));
+      }
+      navigate("/flighbook");
+    } else {
+      alert(JSON.stringify(flight));
     }
-    navigate("/flighbook");
   };
 
   return (
