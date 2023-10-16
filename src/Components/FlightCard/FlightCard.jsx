@@ -10,10 +10,10 @@ const FlightCard = ({ flight }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const bookings = useSelector((state) => state.bookings.bookings);
+  const bookings = useSelector((state) => state.bookings?.bookings);
 
-  const landing = new Date(flight.selectedLandingTime);
-  const takeoff = new Date(flight.selectedTakeoffTime);
+  const landing = new Date(flight?.selectedLandingTime);
+  const takeoff = new Date(flight?.selectedTakeoffTime);
 
   const landingdate = landing.toDateString();
   const takeoffdate = takeoff.toDateString();
@@ -54,15 +54,15 @@ const FlightCard = ({ flight }) => {
           <span className="lg:relative bg-white rounded-full invisible lg:visible mt-[4rem] -ml-[0.5rem] w-[30px] h-[30px]"></span>
           <div className="w-full flex justify-evenly items-center flex-wrap">
             <div className="flex w-full justify-evenly">
-              <h2 className="text-2xl py-3 font-bold">{flight.name}</h2>
-              <h2 className="text-2xl py-3 font-bold">₹ {flight.price}</h2>
+              <h2 className="text-2xl py-3 font-bold">{flight?.name}</h2>
+              <h2 className="text-2xl py-3 font-bold">₹ {flight?.price}</h2>
             </div>
             <div className="py-3 text-center">
               <span>
-                {flight.locationFrom.city}, {flight.locationFrom.country}
+                {flight?.locationFrom.city}, {flight?.locationFrom.country}
               </span>
               <h1 className="text-xl font-semibold">
-                {flight.locationFrom.code}
+                {flight?.locationFrom.code}
               </h1>
               <span>{takeoffdate}</span>
             </div>
@@ -78,10 +78,10 @@ const FlightCard = ({ flight }) => {
             </div>
             <div className="py-3 text-center">
               <span>
-                {flight.locationTo.city}, {flight.locationTo.country}
+                {flight?.locationTo.city}, {flight?.locationTo.country}
               </span>
               <h1 className="text-xl font-semibold">
-                {flight.locationTo.code}
+                {flight?.locationTo.code}
               </h1>
               <span>{landingdate}</span>
             </div>

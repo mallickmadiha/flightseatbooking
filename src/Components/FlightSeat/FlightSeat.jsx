@@ -19,7 +19,7 @@ const FlightSeat = ({ seatNo, disabledseats, handleSeatSelection }) => {
             <label htmlFor={`${seatNo}A`}>Occupied</label>
           </li>
         )}
-        {!disabledseats.includes(`${seatNo}B`) ? (
+        {!disabledseats?.includes(`${seatNo}B`) ? (
           <li className="seat">
             <input
               type="checkbox"
@@ -34,7 +34,7 @@ const FlightSeat = ({ seatNo, disabledseats, handleSeatSelection }) => {
             <label htmlFor={`${seatNo}B`}>Occupied</label>
           </li>
         )}
-        {!disabledseats.includes(`${seatNo}C`) ? (
+        {!disabledseats?.includes(`${seatNo}C`) ? (
           <li className="seat">
             <input
               type="checkbox"
@@ -49,7 +49,7 @@ const FlightSeat = ({ seatNo, disabledseats, handleSeatSelection }) => {
             <label htmlFor={`${seatNo}C`}>Occupied</label>
           </li>
         )}
-        {!disabledseats.includes(`${seatNo}D`) ? (
+        {!disabledseats?.includes(`${seatNo}D`) ? (
           <li className="seat">
             <input
               type="checkbox"
@@ -64,7 +64,7 @@ const FlightSeat = ({ seatNo, disabledseats, handleSeatSelection }) => {
             <label htmlFor={`${seatNo}D`}>Occupied</label>
           </li>
         )}
-        {!disabledseats.includes(`${seatNo}E`) ? (
+        {!disabledseats?.includes(`${seatNo}E`) ? (
           <li className="seat">
             <input
               type="checkbox"
@@ -79,7 +79,7 @@ const FlightSeat = ({ seatNo, disabledseats, handleSeatSelection }) => {
             <label htmlFor={`${seatNo}E`}>Occupied</label>
           </li>
         )}
-        {!disabledseats.includes(`${seatNo}F`) ? (
+        {!disabledseats?.includes(`${seatNo}F`) ? (
           <li className="seat">
             <input
               type="checkbox"

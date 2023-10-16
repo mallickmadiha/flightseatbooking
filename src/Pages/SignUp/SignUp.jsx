@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
@@ -136,7 +137,7 @@ const SignUp = () => {
                   />
                   <div
                     onClick={(e) => togglePasswordVisibility(e)}
-                    className="togglebtn"
+                    className="togglebtn cursor-pointer"
                   >
                     {!visiblePassword ? (
                       <BsFillEyeSlashFill />
@@ -156,7 +157,7 @@ const SignUp = () => {
                   />
                   <div
                     onClick={(e) => toggleconfirmPasswordVisibility(e)}
-                    className="togglebtn"
+                    className="togglebtn cursor-pointer"
                   >
                     {!visibleconfirmPassword ? (
                       <BsFillEyeSlashFill />

@@ -56,7 +56,7 @@ const Booking = () => {
         localStorage.setItem("booking", JSON.stringify(storedBooking));
         const updatedItem = {
           id: storedBooking.id,
-          booked: [...currFlightBookedSeat[0].booked, ...selectedSeats],
+          booked: [...disableBookings, ...selectedSeats],
         };
 
         const itemIndex = bookSeat.findIndex(
@@ -88,13 +88,13 @@ const Booking = () => {
 
   const rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
-    <div className="mt-5">
+    <div className="mt-5" data-testid="booking">
       <h1 className="text-lg xl:text-3xl lg:text-3xl md:text-3xl text-center">
-        {storedBooking.name} ({storedBooking.locationFrom.code}
+        {storedBooking?.name} ({storedBooking?.locationFrom.code}
         <span>
           <i className="fa fa-arrow-circle-o-right mx-2" />
         </span>
-        {storedBooking.locationTo.code} )
+        {storedBooking?.locationTo.code} )
       </h1>
       {showMeal && (
         <Meal

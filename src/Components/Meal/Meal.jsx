@@ -12,43 +12,43 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
   const menu = [
     {
       name: "Rice with fried fish",
-      price: 25,
+      price: 1,
     },
     {
       name: "Rice with chicken",
-      price: 25,
+      price: 2,
     },
     {
       name: "Rice with grill rib",
-      price: 25,
+      price: 5,
     },
     {
       name: "Rice with Dieu Hong fish",
-      price: 20,
+      price: 4,
     },
     {
       name: "Rice with cat fish",
-      price: 20,
+      price: 2,
     },
     {
       name: "Fried rice with sea food",
-      price: 25,
+      price: 3,
     },
     {
       name: "Fried rice with fried chicken",
-      price: 25,
+      price: 5,
     },
     {
       name: "Fried rice with boiled chicken",
-      price: 25,
+      price: 7,
     },
     {
       name: "Noodles with sea food",
-      price: 30,
+      price: 3,
     },
     {
       name: "Hu tieu with sea food",
-      price: 30,
+      price: 2,
     },
     {
       name: "Extra rice",
@@ -85,12 +85,12 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
   };
 
   const handleSubmit = () => {
-      dispatch(
-        addMealsToBooking({
-          bookingId: storedBooking.bookingId,
-          meals: orderList,
-        })
-      );
+    dispatch(
+      addMealsToBooking({
+        bookingId: storedBooking.bookingId,
+        meals: orderList,
+      })
+    );
     Swal.fire({
       title: "Success!",
       text: "Meals Added Successfully",
@@ -157,15 +157,6 @@ const Meal = ({ setShowLuggage, setShowMeal, setShowSeat, storedBooking }) => {
                   <p className="text-gray-600">
                     {item.price === 0 ? "Free" : `${item.price}k`}
                   </p>
-                  <input
-                    className="qty text-center py-1 border border-gray-300 w-14"
-                    type="number"
-                    name="qty"
-                    min="1"
-                    max="100"
-                    disabled
-                    defaultValue="1"
-                  />
                   <button
                     className="add-btn text-sm py-1 px-2 bg-green-500 text-white border border-green-600 rounded cursor-pointer"
                     onClick={() => addItem(index, 1)}

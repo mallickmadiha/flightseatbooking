@@ -1,13 +1,12 @@
 import React from "react";
-// import {render, screen, cleanup} from "@testing-library/react";
-import BoardingPass from "./BoardingPass";
+import Navbar from "./Navbar";
 import { renderWithProviders } from "../../utils/utils-for-tests";
 import { BrowserRouter } from "react-router-dom";
 
-test("should render BoardingPass component", () => {
+test("should render Navbar component", () => {
   renderWithProviders(
     <BrowserRouter>
-      <BoardingPass />
+      <Navbar />
     </BrowserRouter>
   );
 });

@@ -17,7 +17,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const storedFlights = useSelector((state) => state.flights.flights);
+  const storedFlights = useSelector((state) => state.flights?.flights);
 
   // eslint-disable-next-line no-unused-vars
   const [flights, setFlights] = useLocalStorage("flights", storedFlights);
