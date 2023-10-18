@@ -1,5 +1,5 @@
 ## To start the application 
-`npm i`
+`npm i` or `npm i --force`
 
 `npm start`
 
